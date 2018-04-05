@@ -33,9 +33,15 @@ export class Time {
       if (time.minutes < 0) {
         // tslint:disable-next-line
         console.log('Winner!')
+        time.minutes = 0
+        time.seconds = 0
       }
     }
 
     return time
+  }
+
+  public isDone() {
+    return this.minutes === 0 && this.seconds === 0
   }
 }

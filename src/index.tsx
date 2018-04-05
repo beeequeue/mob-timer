@@ -6,7 +6,7 @@ import { createEpicMiddleware } from 'redux-observable'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import { App } from './App'
-import { reducers, epics } from './state'
+import { reducers, epics } from '@state/index'
 // import { register as registerSW } from './registerServiceWorker'
 import 'normalize.css'
 
@@ -35,8 +35,8 @@ if ((module as any).hot) {
 
     render(<NextApp />, document.getElementById('root'))
   })
-  ;(module as any).hot.accept('./state', () => {
-    const { reducers: nextReducers, epics: nextEpics } = require('./state')
+  ;(module as any).hot.accept('@state/index', () => {
+    const { reducers: nextReducers, epics: nextEpics } = require('@state/index')
 
     store.replaceReducer(nextReducers)
     epicMiddleware.replaceEpic(nextEpics)

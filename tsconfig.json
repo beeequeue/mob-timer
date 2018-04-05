@@ -8,6 +8,9 @@
     "jsx": "react",
     "moduleResolution": "node",
     "baseUrl": ".",
+    "paths": {
+      "@state/*": ["src/state/*"]
+    },
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,

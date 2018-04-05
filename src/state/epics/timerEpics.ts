@@ -1,8 +1,8 @@
 import { MiddlewareAPI } from 'redux'
 import { ActionsObservable } from 'redux-observable'
-import { STOP_TIMER } from '../actions/types'
-import { startTimer, clearLoop } from '../actions/timerActions'
-import { IState } from '../state'
+import { STOP_TIMER } from '@state/actions/types'
+import { startTimer, clearLoop } from '@state/actions/timerActions'
+import { IState } from '@state/index'
 
 type startTimerEpicType = ActionsObservable<ReturnType<typeof startTimer>>
 

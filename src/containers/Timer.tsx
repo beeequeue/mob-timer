@@ -9,8 +9,8 @@ import {
   startTimer,
   stopTimer,
   countDownOneSecond,
-} from '../actions/timerActions'
-import { IState } from '../state'
+} from '@state/actions/timerActions'
+import { IState } from '@state/index'
 import { Time } from '../time'
 import { Countdown } from '../components/Countdown'
 

@@ -4,8 +4,8 @@ import {
   START_TIMER,
   COUNT_DOWN_ONE_SECOND,
   CLEAR_LOOP,
-} from '../actions/types'
-import { Time } from '../time'
+} from '@state/actions/types'
+import { Time } from '../../time'
 
 export interface IStateTimer {
   timerLoop: number | undefined
