@@ -11,14 +11,19 @@ import {
   countDownOneSecond,
 } from '../actions/timerActions'
 import { IState } from '../state'
+import { Time } from '../time'
+import { Countdown } from '../components/Countdown'
 
 const Container = styled.div`
   text-align: center;
-  font-family: 'Roboto', sans-serif;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 `
 
 interface IStateProps {
-  duration: string
+  timeLeft: Time
   timerLoop: number | undefined
 }
 
@@ -30,7 +35,7 @@ interface IActionProps {
 }
 
 const mapState = (state: IState): IStateProps => ({
-  duration: state.timer.timeLeft.toString(),
+  timeLeft: state.timer.timeLeft,
   timerLoop: state.timer.timerLoop,
 })
 
@@ -58,11 +63,11 @@ class TimerComponent extends React.Component<IStateProps & IActionProps> {
   }
 
   public render() {
-    const { duration, timerLoop } = this.props
+    const { timeLeft, timerLoop } = this.props
 
     return (
       <Container>
-        <p className="App-intro">{duration}</p>
+        <Countdown time={timeLeft} />
 
         <RaisedButton onClick={this.setTimeToTen} label="Set time to 10:00" />
 
