@@ -20,4 +20,22 @@ export class Time {
       this.seconds < 10 ? '0' : ''
     }${this.seconds}`
   }
+
+  public reduceByOneSecond(): Time {
+    const time = new Time(this.toString())
+
+    time.seconds -= 1
+
+    if (time.seconds < 0) {
+      time.minutes -= 1
+      time.seconds = 59
+
+      if (time.minutes < 0) {
+        // tslint:disable-next-line
+        console.log('Winner!')
+      }
+    }
+
+    return time
+  }
 }
