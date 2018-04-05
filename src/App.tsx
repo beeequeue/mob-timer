@@ -2,6 +2,7 @@ import * as React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import RaisedButton from 'material-ui/RaisedButton'
 
 import {
   setTime,
@@ -13,6 +14,7 @@ import { IState } from './state'
 
 const Container = styled.div`
   text-align: center;
+  font-family: 'Roboto', sans-serif;
 `
 
 interface IStateProps {
@@ -49,9 +51,10 @@ export class AppComponent extends React.Component<IStateProps & IActionProps> {
   private startTimer() {
     if (this.props.timerLoop) return
 
-    this.props.startTimer(
-      setInterval(() => this.props.countDownOneSecond(), 1000) as any
-    )
+    this.props.startTimer(setInterval(
+      () => this.props.countDownOneSecond(),
+      1000
+    ) as any)
   }
 
   public render() {
@@ -61,13 +64,18 @@ export class AppComponent extends React.Component<IStateProps & IActionProps> {
       <Container>
         <p className="App-intro">{duration}</p>
 
-        <button onClick={this.setTimeToTen}>Set time to 10:00</button>
+        <RaisedButton onClick={this.setTimeToTen} label="Set time to 10:00" />
 
-        <button onClick={this.startTimer}>Start timer</button>
+        <br />
+        <br />
 
-        {timerLoop && (
-          <button onClick={this.props.stopTimer}>Stop timer</button>
-        )}
+        <RaisedButton onClick={this.startTimer} label="Start" />
+
+        <RaisedButton
+          onClick={this.props.stopTimer}
+          disabled={!timerLoop}
+          label="Stop"
+        />
       </Container>
     )
   }

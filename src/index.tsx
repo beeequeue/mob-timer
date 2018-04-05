@@ -2,6 +2,7 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import { App } from './App'
 import { reducers, epics } from './state'
@@ -15,7 +16,9 @@ const store = createStore(reducers, composeMiddleware(applyMiddleware(epics)))
 
 render(
   <Provider store={store}>
-    <App />
+    <MuiThemeProvider>
+      <App />
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById('root') as HTMLElement
 )
