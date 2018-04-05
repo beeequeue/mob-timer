@@ -1,4 +1,4 @@
-import { combineEpics, createEpicMiddleware } from 'redux-observable'
+import { combineEpics } from 'redux-observable'
 import { combineReducers } from 'redux'
 import 'rxjs'
 
@@ -16,6 +16,6 @@ export interface IState {
   timer: IStateTimer
 }
 
-export const epics = createEpicMiddleware(combineEpics(startTimerEpic))
+export const epics = combineEpics(startTimerEpic)
 
 export const reducers = combineReducers({ timer: timerReducers })

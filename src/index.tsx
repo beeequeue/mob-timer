@@ -2,6 +2,7 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
+import { createEpicMiddleware } from 'redux-observable'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import { App } from './App'
@@ -12,7 +13,12 @@ import 'normalize.css'
 const composeMiddleware =
   (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-const store = createStore(reducers, composeMiddleware(applyMiddleware(epics)))
+const epicMiddleware = createEpicMiddleware(epics)
+
+const store = createStore(
+  reducers,
+  composeMiddleware(applyMiddleware(epicMiddleware))
+)
 
 render(
   <Provider store={store}>
@@ -22,5 +28,19 @@ render(
   </Provider>,
   document.getElementById('root') as HTMLElement
 )
+
+if ((module as any).hot) {
+  ;(module as any).hot.accept('./App', () => {
+    const { App: NextApp } = require('./App')
+
+    render(<NextApp />, document.getElementById('root'))
+  })
+  ;(module as any).hot.accept('./state', () => {
+    const { reducers: nextReducers, epics: nextEpics } = require('./state')
+
+    store.replaceReducer(nextReducers)
+    epicMiddleware.replaceEpic(nextEpics)
+  })
+}
 
 // registerSW()
