@@ -50,7 +50,7 @@ class TimerComponent extends React.Component<IStateProps & IActionProps> {
   }
 
   private setTimeToTen() {
-    this.props.setTime('10:00')
+    this.props.setTime('00:03')
   }
 
   private startTimer() {
@@ -69,16 +69,17 @@ class TimerComponent extends React.Component<IStateProps & IActionProps> {
       <Container>
         <Countdown time={timeLeft} />
 
-        <RaisedButton onClick={this.setTimeToTen} label="Set time to 10:00" />
+        <RaisedButton onClick={this.setTimeToTen} label="Set time to 00:03" />
 
         <br />
         <br />
 
-        <RaisedButton onClick={this.startTimer} label="Start" />
+        <RaisedButton onClick={this.startTimer} primary={true} label="Start" />
 
         <RaisedButton
           onClick={this.props.stopTimer}
           disabled={!timerLoop}
+          secondary={true}
           label="Stop"
         />
       </Container>

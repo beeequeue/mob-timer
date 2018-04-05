@@ -24,24 +24,15 @@ export class Time {
   public reduceByOneSecond(): Time {
     const time = new Time(this.toString())
 
+    if (time.minutes <= 0 && time.seconds - 1 <= 0) return new Time()
+
     time.seconds -= 1
 
     if (time.seconds < 0) {
       time.minutes -= 1
       time.seconds = 59
-
-      if (time.minutes < 0) {
-        // tslint:disable-next-line
-        console.log('Winner!')
-        time.minutes = 0
-        time.seconds = 0
-      }
     }
 
     return time
-  }
-
-  public isDone() {
-    return this.minutes === 0 && this.seconds === 0
   }
 }
