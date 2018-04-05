@@ -20,16 +20,30 @@
     "@types/react": "^16.3.5",
     "@types/react-dom": "^16.0.4",
     "@types/react-redux": "^5.0.15",
+    "husky": "^0.14.3",
     "prettier": "^1.11.1",
     "tslint": "^5.9.1",
     "tslint-config-prettier": "^1.10.0",
     "tslint-config-standard": "^7.0.0",
     "typescript": "^2.8.1"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,json}": [
+      "yarn format",
+      "git add"
+    ]
+  },
   "private": true,
   "scripts": {
     "build": "react-scripts-ts build",
     "eject": "react-scripts-ts eject",
+    "format": "prettier --write",
+    "format:all": "prettier --write \"app/ui/**/*.{ts,tsx,json}\"",
     "start": "react-scripts-ts start",
     "test": "react-scripts-ts test --env=jsdom"
   }
