@@ -15,7 +15,11 @@ const TimeAndButtons = styled.span`
 `
 
 const Timer = styled.span`
-  font-size: 10vw;
+  font-size: 30vw;
+
+  @media only screen and (min-width: 600px) {
+    font-size: 15vw;
+  }
 `
 
 export class Countdown extends React.PureComponent<IProps> {
