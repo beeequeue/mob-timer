@@ -2,7 +2,7 @@ import * as React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
 
 import {
   setTime,
@@ -20,6 +20,11 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+`
+
+const Button = styled(FlatButton)`
+  flex-shrink: 0;
 `
 
 interface IStateProps {
@@ -41,8 +46,8 @@ const mapState = (state: IState): IStateProps => ({
 
 const mapActions = { setTime, startTimer, stopTimer, countDownOneSecond }
 
-class TimerComponent extends React.Component<IStateProps & IActionProps> {
-  constructor(props: any) {
+class TimerComponent extends React.PureComponent<IStateProps & IActionProps> {
+  constructor(props: IStateProps & IActionProps) {
     super(props)
 
     this.setTimeToTen = this.setTimeToTen.bind(this)
@@ -50,7 +55,7 @@ class TimerComponent extends React.Component<IStateProps & IActionProps> {
   }
 
   private setTimeToTen() {
-    this.props.setTime('00:03')
+    this.props.setTime(new Time(0, 3))
   }
 
   private startTimer() {
@@ -63,22 +68,20 @@ class TimerComponent extends React.Component<IStateProps & IActionProps> {
   }
 
   public render() {
-    const { timeLeft, timerLoop } = this.props
-
     return (
       <Container>
         <Countdown time={timeLeft} />
 
-        <RaisedButton onClick={this.setTimeToTen} label="Set time to 00:03" />
+        <Button onClick={this.setTimeToTen} label="Set time to 00:03" />
 
         <br />
         <br />
 
-        <RaisedButton onClick={this.startTimer} primary={true} label="Start" />
+        <Button onClick={this.startTimer} primary={true} label="Start" />
 
-        <RaisedButton
+        <Button
           onClick={this.props.stopTimer}
-          disabled={!timerLoop}
+          disabled={!this.props.timerLoop}
           secondary={true}
           label="Stop"
         />

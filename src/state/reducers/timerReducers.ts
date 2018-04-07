@@ -22,7 +22,7 @@ const initialState: IStateTimer = {
 export const timerReducers = (state = initialState, action: Action) => {
   switch (action.type) {
     case SET_TIME:
-      const time = new Time(action.payload)
+      const time = Time.fromTime(action.payload as Time)
 
       return Object.assign({}, state, {
         timeLeft: time,

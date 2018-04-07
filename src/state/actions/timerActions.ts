@@ -5,8 +5,9 @@ import {
   COUNT_DOWN_ONE_SECOND,
   CLEAR_LOOP,
 } from './types'
+import { Time } from '../../time'
 
-export const setTime = (payload: string) => ({
+export const setTime = (payload: Time) => ({
   type: SET_TIME,
   payload,
 })

@@ -33,7 +33,14 @@ if ((module as any).hot) {
   ;(module as any).hot.accept('./App', () => {
     const { App: NextApp } = require('./App')
 
-    render(<NextApp />, document.getElementById('root'))
+    render(
+      <Provider store={store}>
+        <MuiThemeProvider>
+          <NextApp />
+        </MuiThemeProvider>
+      </Provider>,
+      document.getElementById('root')
+    )
   })
   ;(module as any).hot.accept('@state/index', () => {
     const { reducers: nextReducers, epics: nextEpics } = require('@state/index')
