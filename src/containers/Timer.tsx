@@ -3,6 +3,9 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import Button from 'material-ui/Button'
+import Play from '@material-ui/icons/PlayArrow'
+import Reset from '@material-ui/icons/Cached'
+import Pause from '@material-ui/icons/Pause'
 
 import {
   setTime,
@@ -21,6 +24,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`
+
+const NonShrinkButton = styled(Button)`
+  flex-shrink: 0;
 `
 
 interface IStateProps {
@@ -68,16 +75,24 @@ class TimerComponent extends React.PureComponent<IStateProps & IActionProps> {
         <br />
         <br />
 
-        <Button onClick={this.startTimer}>Start</Button>
+        <NonShrinkButton onClick={this.startTimer} color="primary">
+          <Play style={{ marginRight: '2px' }} />
+          Start
+        </NonShrinkButton>
 
-        <Button onClick={this.resetTimer}>Reset</Button>
+        <NonShrinkButton onClick={this.resetTimer}>
+          <Reset style={{ marginRight: '2px' }} />
+          Reset
+        </NonShrinkButton>
 
-        <Button
+        <NonShrinkButton
           onClick={this.props.stopTimer}
           disabled={!this.props.timerLoop}
+          color="secondary"
         >
+          <Pause style={{ marginRight: '2px' }} />
           Stop
-        </Button>
+        </NonShrinkButton>
       </Container>
     )
   }
