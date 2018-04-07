@@ -2,7 +2,7 @@ import * as React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import FlatButton from 'material-ui/FlatButton'
+import Button from 'material-ui/Button'
 
 import {
   setTime,
@@ -21,10 +21,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
-
-const Button = styled(FlatButton)`
-  flex-shrink: 0;
 `
 
 interface IStateProps {
@@ -47,18 +43,7 @@ const mapState = (state: IState): IStateProps => ({
 const mapActions = { setTime, startTimer, stopTimer, countDownOneSecond }
 
 class TimerComponent extends React.PureComponent<IStateProps & IActionProps> {
-  constructor(props: IStateProps & IActionProps) {
-    super(props)
-
-    this.setTimeToTen = this.setTimeToTen.bind(this)
-    this.startTimer = this.startTimer.bind(this)
-  }
-
-  private setTimeToTen() {
-    this.props.setTime(new Time(0, 3))
-  }
-
-  private startTimer() {
+  private startTimer = () => {
     if (this.props.timerLoop) return
 
     this.props.startTimer(setInterval(
@@ -67,24 +52,32 @@ class TimerComponent extends React.PureComponent<IStateProps & IActionProps> {
     ) as any)
   }
 
+  private resetTimer = () => {
+    this.props.stopTimer()
+    this.props.setTime(new Time(0, 0))
+  }
+
   public render() {
     return (
       <Container>
-        <Countdown time={timeLeft} />
-
-        <Button onClick={this.setTimeToTen} label="Set time to 00:03" />
+        <Countdown
+          time={this.props.timeLeft}
+          onChangeTime={this.props.setTime}
+        />
 
         <br />
         <br />
 
-        <Button onClick={this.startTimer} primary={true} label="Start" />
+        <Button onClick={this.startTimer}>Start</Button>
+
+        <Button onClick={this.resetTimer}>Reset</Button>
 
         <Button
           onClick={this.props.stopTimer}
           disabled={!this.props.timerLoop}
-          secondary={true}
-          label="Stop"
-        />
+        >
+          Stop
+        </Button>
       </Container>
     )
   }

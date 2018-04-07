@@ -24,6 +24,7 @@
     "arrow-parens": false,
     "no-default-export": true,
     "no-floating-promises": true,
-    "member-ordering": false
+    "member-ordering": false,
+    "jsx-boolean-value": false
   }
 }

@@ -3,12 +3,11 @@ import { render } from 'react-dom'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import { createEpicMiddleware } from 'redux-observable'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import CssBaseline from 'material-ui/CssBaseline'
 
 import { App } from './App'
 import { reducers, epics } from '@state/index'
 // import { register as registerSW } from './registerServiceWorker'
-import 'normalize.css'
 
 const composeMiddleware =
   (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
@@ -22,9 +21,10 @@ const store = createStore(
 
 render(
   <Provider store={store}>
-    <MuiThemeProvider>
+    <React.Fragment>
+      <CssBaseline />
       <App />
-    </MuiThemeProvider>
+    </React.Fragment>
   </Provider>,
   document.getElementById('root') as HTMLElement
 )
@@ -35,9 +35,10 @@ if ((module as any).hot) {
 
     render(
       <Provider store={store}>
-        <MuiThemeProvider>
+        <React.Fragment>
+          <CssBaseline />
           <NextApp />
-        </MuiThemeProvider>
+        </React.Fragment>
       </Provider>,
       document.getElementById('root')
     )
