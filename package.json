@@ -54,6 +54,7 @@
     "@types/react-dom": "^16.0.4",
     "@types/react-redux": "^5.0.15",
     "husky": "^0.14.3",
+    "lint-staged": "^7.0.4",
     "prettier": "^1.11.1",
     "ts-jest": "22.0.1",
     "tsconfig-paths-webpack-plugin": "^2.0.0",

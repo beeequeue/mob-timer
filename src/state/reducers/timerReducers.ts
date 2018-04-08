@@ -4,7 +4,7 @@ import {
   START_TIMER,
   COUNT_DOWN_ONE_SECOND,
   CLEAR_LOOP,
-  RootAction
+  RootAction,
 } from '@state/actions/timerActions'
 import { Time } from '../../time'
 

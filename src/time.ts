@@ -19,8 +19,8 @@ export class Time {
 
   public reduceByOneSecond(): Time {
     const time = Time.fromTime(this)
-    let newMinutes = time.minutes;
-    let newSeconds = time.seconds - 1;
+    let newMinutes = time.minutes
+    let newSeconds = time.seconds - 1
 
     if (newMinutes <= 0 && newSeconds <= 0) return new Time()
 
