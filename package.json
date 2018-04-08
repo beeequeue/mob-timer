@@ -2,7 +2,9 @@
   "name": "mob-timer",
   "version": "0.1.0",
   "babel": {
-    "presets": ["react-app"]
+    "presets": [
+      "react-app"
+    ]
   },
   "dependencies": {
     "@material-ui/icons": "^1.0.0-beta.42",
@@ -65,21 +67,27 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn run lint"
     }
   },
   "jest": {
-    "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}"],
-    "setupFiles": ["<rootDir>/config/polyfills.js"],
-    "testMatch": ["<rootDir>/src/**/?(*.)(test).(j|t)s?(x)"],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}"
+    ],
+    "setupFiles": [
+      "<rootDir>/config/polyfills.js"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/?(*.)(test).(j|t)s?(x)"
+    ],
     "testEnvironment": "node",
     "testURL": "http://localhost",
     "transform": {
       "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
       "^.+\\.tsx?$": "<rootDir>/config/jest/typescriptTransform.js",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|mjs|css|json)$)":
-        "<rootDir>/config/jest/fileTransform.js"
+      "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$"
@@ -88,7 +96,13 @@
       "^react-native$": "react-native-web",
       "@state/(.*)": "<rootDir>/src/state/$1"
     },
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ],
     "globals": {
       "ts-jest": {
         "tsConfigFile": "tsconfig.test.json"
@@ -107,6 +121,7 @@
     "format": "prettier --write",
     "format:all": "prettier --write \"src/**/*.{ts,tsx,json}\"",
     "start": "node scripts/start.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "lint": "tslint --project ."
   }
 }
