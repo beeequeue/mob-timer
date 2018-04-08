@@ -1,10 +1,13 @@
-import { combineEpics } from 'redux-observable'
-import { combineReducers } from 'redux'
-import 'rxjs'
+// tslint:disable:interface-over-type-literal
+import { combineEpics, createEpicMiddleware } from 'redux-observable'
+import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
+import 'rxjs/add/operator/do'
+import 'rxjs/add/operator/filter'
+import 'rxjs/add/operator/mapTo'
 
 import { timerReducers, IStateTimer } from '@state/reducers/timerReducers'
 import { usersReducers, IStateUsers } from '@state/reducers/usersReducers'
-import { startTimerEpic, outOfTimeEpic } from '@state/epics/timerEpics'
+import { stopTimerEpic, outOfTimeEpic } from '@state/epics/timerEpics'
 
 declare module 'redux' {
   // tslint:disable:interface-name
@@ -13,14 +16,24 @@ declare module 'redux' {
   }
 }
 
-export interface IState {
-  timer: IStateTimer
-  users: IStateUsers
+const composeMiddleware =
+  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+export type IState = {
+  readonly timer: IStateTimer
+  readonly users: IStateUsers
 }
 
-export const epics = combineEpics(startTimerEpic, outOfTimeEpic)
+export const rootEpic = combineEpics(stopTimerEpic as any, outOfTimeEpic as any)
 
-export const reducers = combineReducers({
+export const rootReducers = combineReducers({
   timer: timerReducers,
   users: usersReducers,
 })
+
+export const epicMiddleware = createEpicMiddleware(rootEpic)
+
+export const store = createStore(
+  rootReducers,
+  composeMiddleware(applyMiddleware(epicMiddleware))
+)

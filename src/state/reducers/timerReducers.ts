@@ -1,16 +1,17 @@
-import { Action } from 'redux'
+// tslint:disable:interface-over-type-literal
 import {
   SET_TIME,
   START_TIMER,
   COUNT_DOWN_ONE_SECOND,
   CLEAR_LOOP,
-} from '@state/actions/types'
+  RootAction
+} from '@state/actions/timerActions'
 import { Time } from '../../time'
 
-export interface IStateTimer {
-  timerLoop: number | undefined
-  timeLeft: Time
-  duration: Time
+export type IStateTimer = {
+  readonly timerLoop: number | undefined
+  readonly timeLeft: Time
+  readonly duration: Time
 }
 
 const initialState: IStateTimer = {
@@ -19,10 +20,10 @@ const initialState: IStateTimer = {
   duration: new Time(),
 }
 
-export const timerReducers = (state = initialState, action: Action) => {
+export const timerReducers = (state = initialState, action: RootAction) => {
   switch (action.type) {
     case SET_TIME:
-      const time = Time.fromTime(action.payload as Time)
+      const time = Time.fromTime(action.payload)
 
       return Object.assign({}, state, {
         timeLeft: time,
