@@ -2,7 +2,7 @@ import * as React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import Button from 'material-ui/Button'
+import Button from 'material-ui/es/Button'
 import Play from '@material-ui/icons/PlayArrow'
 import Reset from '@material-ui/icons/Cached'
 import Pause from '@material-ui/icons/Pause'
@@ -42,9 +42,9 @@ interface IActionProps {
   countDownOneSecond: typeof countDownOneSecond
 }
 
-const mapState = (state: IState): IStateProps => ({
-  timeLeft: state.timer.timeLeft,
-  timerLoop: state.timer.timerLoop,
+const mapState = ({ timer }: IState): IStateProps => ({
+  timeLeft: timer.timeLeft,
+  timerLoop: timer.timerLoop,
 })
 
 const mapActions = { setTime, startTimer, stopTimer, countDownOneSecond }

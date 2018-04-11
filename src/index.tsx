@@ -2,7 +2,7 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 
-import CssBaseline from 'material-ui/CssBaseline'
+import CssBaseline from 'material-ui/es/CssBaseline'
 
 import { store, epicMiddleware } from '@state/index'
 import { App } from './App'

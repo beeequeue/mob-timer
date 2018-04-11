@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import Grid from 'material-ui/Grid'
-import Button from 'material-ui/Button'
+import Grid from 'material-ui/es/Grid'
+import Button from 'material-ui/es/Button'
 import { Time } from '../time'
 
 interface IProps {

@@ -1,3 +1,4 @@
+// tslint:disable:interface-over-type-literal
 export const ADD_USER = 'ADD_USER'
 export const REMOVE_USER = 'REMOVE_USER'
 export const SET_ORDER = 'SET_ORDER'
