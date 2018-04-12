@@ -31,6 +31,7 @@ const NonShrinkButton = styled(Button)`
 `
 
 interface IStateProps {
+  duration: Time
   timeLeft: Time
   timerLoop: number | undefined
 }
@@ -43,6 +44,7 @@ interface IActionProps {
 }
 
 const mapState = ({ timer }: IState): IStateProps => ({
+  duration: timer.duration,
   timeLeft: timer.timeLeft,
   timerLoop: timer.timerLoop,
 })
@@ -61,7 +63,7 @@ class TimerComponent extends React.PureComponent<IStateProps & IActionProps> {
 
   private resetTimer = () => {
     this.props.stopTimer()
-    this.props.setTime(new Time(0, 0))
+    this.props.setTime(Time.fromTime(this.props.duration))
   }
 
   public render() {
