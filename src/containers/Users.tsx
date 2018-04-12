@@ -7,7 +7,8 @@ import { setOrder } from '@state/actions/usersActions'
 import { UserList } from '../components/UserList'
 
 interface IStateProps {
-  users: ReadonlyArray<string>
+  readonly users: ReadonlyArray<string>
+  readonly activeUser: number
 }
 
 interface IActionProps {
@@ -16,6 +17,7 @@ interface IActionProps {
 
 const mapState = ({ users }: IState): IStateProps => ({
   users: users.list,
+  activeUser: users.activeUser,
 })
 
 const mapActions = { setOrder }
@@ -33,6 +35,7 @@ class UserComponent extends React.PureComponent<IStateProps & IActionProps> {
     return (
       <UserList
         users={this.props.users}
+        activeUser={this.props.activeUser}
         moveUser={this.moveUser}
       />
     )

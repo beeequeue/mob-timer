@@ -6,6 +6,7 @@ import { DraggableUser } from './User'
 
 interface IProps {
   users: ReadonlyArray<string>
+  readonly activeUser: number
   moveUser(dragIndex: number, hoverIndex: number): void
 }
 
@@ -21,6 +22,7 @@ export class UserList extends React.PureComponent<IProps> {
 
                 <DraggableUser
                   user={user}
+                  active={this.props.activeUser === i}
                   index={i}
                   moveUser={this.props.moveUser}
                 />

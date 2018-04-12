@@ -14,6 +14,7 @@ import { ListItem, ListItemText } from 'material-ui/es/List'
 
 interface IProps {
   readonly user: string
+  readonly active: boolean
   readonly index: number
   moveUser(dragIndex: number, hoverIndex: number): void
 }
@@ -50,7 +51,7 @@ const target: DropTargetSpec<IProps> = {
     // When dragging upwards, only move when the cursor is above 50%
 
     // Dragging downwards
-    if (dragIndex < hoverIndex && hoverClientY <  offsetNeeded) {
+    if (dragIndex < hoverIndex && hoverClientY < offsetNeeded) {
       return
     }
 
@@ -105,6 +106,7 @@ export class DraggableUser extends React.PureComponent<IProps> {
                 minWidth: 75,
                 padding: 0,
                 opacity: (this.props as any).isDragging ? 0 : 1,
+                fontWeight: this.props.active ? 500 : 'inherit',
               }}
             />
           </ListItem>
