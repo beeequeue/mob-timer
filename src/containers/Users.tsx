@@ -22,7 +22,6 @@ const mapActions = { setOrder }
 
 class UserComponent extends React.PureComponent<IStateProps & IActionProps> {
   private moveUser = (dragIndex: number, hoverIndex: number) => {
-    console.log(dragIndex, hoverIndex)
     const users = [...this.props.users]
     const [movingUser] = users.splice(dragIndex, 1)
     users.splice(hoverIndex, 0, movingUser)
