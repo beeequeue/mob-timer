@@ -103,7 +103,7 @@ export class DraggableUser extends React.PureComponent<IProps> {
               disableTypography
               style={{
                 textAlign: 'center',
-                minWidth: 75,
+                minWidth: 125,
                 padding: 0,
                 opacity: (this.props as any).isDragging ? 0 : 1,
                 fontWeight: this.props.active ? 500 : 'inherit',

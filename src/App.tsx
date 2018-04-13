@@ -13,7 +13,10 @@ const Container = styled.div`
   width: 100%;
   user-select: none;
   display: flex;
-  flex-direction: column;
+
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+  }
 `
 
 @DragDropContext(HTML5Backend)

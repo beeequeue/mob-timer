@@ -1,8 +1,15 @@
 import * as React from 'react'
+import styled from 'styled-components'
 import List from 'material-ui/es/List'
 import Grid from 'material-ui/es/Grid'
 import Divider from 'material-ui/es/Divider'
+
 import { DraggableUser } from './User'
+
+const Container = styled.span`
+  display: flex;
+  align-items: center;
+`
 
 interface IProps {
   users: ReadonlyArray<string>
@@ -13,7 +20,7 @@ interface IProps {
 export class UserList extends React.PureComponent<IProps> {
   public render() {
     return (
-      <span>
+      <Container>
         <Grid container justify="center">
           <List component="nav">
             {this.props.users.map((user, i) => (
@@ -30,7 +37,7 @@ export class UserList extends React.PureComponent<IProps> {
             ))}
           </List>
         </Grid>
-      </span>
+      </Container>
     )
   }
 }
