@@ -105,6 +105,7 @@ export class DraggableUser extends React.PureComponent<IProps> {
               opacity: (this.props as any).isDragging ? 0 : 1,
               fontWeight: this.props.active ? 500 : 'inherit',
               textDecoration: this.props.active ? 'underline' : 'inherit',
+              textShadow: this.props.active ? '0 0 4px rgba(0,0,0,0.45)' : 'none',
               textAlign: 'center',
               fontSize: '1.15em',
             }}

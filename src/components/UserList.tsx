@@ -8,6 +8,7 @@ import { DraggableUser } from './User'
 const Container = styled.span`
   display: flex;
   align-items: center;
+  background: #fff;
 `
 
 interface IProps {

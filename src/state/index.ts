@@ -4,6 +4,8 @@ import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
 import 'rxjs/add/operator/do'
 import 'rxjs/add/operator/filter'
 import 'rxjs/add/operator/mapTo'
+import 'rxjs/add/operator/mergeMap'
+import 'rxjs/add/operator/ignoreElements'
 
 import { timerReducers, IStateTimer } from '@state/reducers/timerReducers'
 import { usersReducers, IStateUsers } from '@state/reducers/usersReducers'

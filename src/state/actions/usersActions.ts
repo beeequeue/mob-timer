@@ -3,6 +3,7 @@ export const ADD_USER = 'ADD_USER'
 export const REMOVE_USER = 'REMOVE_USER'
 export const SET_ORDER = 'SET_ORDER'
 export const SET_ACTIVE = 'SET_ACTIVE'
+export const SET_ACTIVE_NEXT = 'SET_ACTIVE_NEXT'
 
 export type Actions = {
   ADD_USER: {
@@ -20,6 +21,9 @@ export type Actions = {
   SET_ACTIVE: {
     type: typeof SET_ACTIVE
     payload: number
+  }
+  SET_ACTIVE_NEXT: {
+    type: typeof SET_ACTIVE_NEXT
   }
 }
 
@@ -43,4 +47,8 @@ export const setOrder = (payload: string[]): Actions[typeof SET_ORDER] => ({
 export const setActive = (payload: number): Actions[typeof SET_ACTIVE] => ({
   type: SET_ACTIVE,
   payload,
+})
+
+export const setActiveNext = (): Actions[typeof SET_ACTIVE_NEXT] => ({
+  type: SET_ACTIVE_NEXT,
 })

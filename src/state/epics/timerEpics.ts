@@ -8,6 +8,7 @@ import {
   stopTimer,
   clearLoop,
 } from '@state/actions/timerActions'
+import { setActiveNext } from '@state/actions/usersActions'
 
 type stopTimerEpicType = ActionsObservable<Actions[typeof STOP_TIMER]>
 type countDownOneSecondEpicType = ActionsObservable<
@@ -34,4 +35,4 @@ export const outOfTimeEpic = (
 
       return timeLeft.minutes === 0 && timeLeft.seconds === 0
     })
-    .mapTo(stopTimer())
+    .mergeMap(() => [stopTimer(), setActiveNext()])

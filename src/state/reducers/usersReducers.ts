@@ -1,5 +1,9 @@
 // tslint:disable:interface-over-type-literal
-import { RootAction, SET_ORDER } from '@state/actions/usersActions'
+import {
+  RootAction,
+  SET_ORDER,
+  SET_ACTIVE_NEXT,
+} from '@state/actions/usersActions'
 
 export type IStateUsers = {
   readonly list: ReadonlyArray<string>
@@ -16,6 +20,17 @@ export const usersReducers = (state = initialState, action: RootAction) => {
     case SET_ORDER:
       return Object.assign({}, state, {
         list: action.payload,
+      })
+
+    case SET_ACTIVE_NEXT:
+      let nextUser = state.activeUser + 1
+
+      if (nextUser >= state.list.length) {
+        nextUser = 0
+      }
+
+      return Object.assign({}, state, {
+        activeUser: nextUser,
       })
 
     default:
