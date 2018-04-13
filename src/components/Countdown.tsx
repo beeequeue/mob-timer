@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { StyledComponentClass } from 'styled-components'
-import Grid from 'material-ui/es/Grid'
-import Button from 'material-ui/es/Button'
+import { Grid } from 'react-md/lib/Grids'
+import { Button, ButtonProps } from 'react-md/lib/Buttons'
 import { Time } from '../time'
 
 interface IProps {
@@ -20,7 +20,7 @@ interface IStyledButtonProps {
 }
 
 const StyledButton: StyledComponentClass<
-  IStyledButtonProps & typeof Button.defaultProps,
+  IStyledButtonProps & ButtonProps,
   {}
 > = styled(Button)`
   opacity: ${(p: IStyledButtonProps) => (p.counting ? 0 : 1)};
@@ -68,17 +68,15 @@ export class Countdown extends React.PureComponent<IProps> {
 
     return (
       <Grid
-        container
-        alignItems="center"
-        justify="center"
-        style={{ height: '100%', flexShrink: 1 }}
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100%',
+          flexShrink: 1,
+        }}
       >
         <TimeAndButtons>
-          <StyledButton
-            onClick={this.changeMinutes}
-            counting={counting}
-            size="large"
-          >
+          <StyledButton flat counting={counting} onClick={this.changeMinutes}>
             +1
           </StyledButton>
 
@@ -86,11 +84,7 @@ export class Countdown extends React.PureComponent<IProps> {
             {time.toString().substring(0, time.toString().indexOf(':'))}
           </Timer>
 
-          <StyledButton
-            onClick={this.changeMinutes}
-            counting={counting}
-            size="large"
-          >
+          <StyledButton flat counting={counting} onClick={this.changeMinutes}>
             -1
           </StyledButton>
         </TimeAndButtons>
@@ -98,11 +92,7 @@ export class Countdown extends React.PureComponent<IProps> {
         <Timer>:</Timer>
 
         <TimeAndButtons>
-          <StyledButton
-            onClick={this.changeSeconds}
-            counting={counting}
-            size="large"
-          >
+          <StyledButton flat counting={counting} onClick={this.changeSeconds}>
             +10
           </StyledButton>
 
@@ -110,11 +100,7 @@ export class Countdown extends React.PureComponent<IProps> {
             {time.toString().substring(time.toString().indexOf(':') + 1)}
           </Timer>
 
-          <StyledButton
-            onClick={this.changeSeconds}
-            counting={counting}
-            size="large"
-          >
+          <StyledButton flat counting={counting} onClick={this.changeSeconds}>
             -10
           </StyledButton>
         </TimeAndButtons>

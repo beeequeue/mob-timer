@@ -2,7 +2,8 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 
-import CssBaseline from 'material-ui/es/CssBaseline'
+import 'normalize.css'
+import './index.scss'
 
 import { store, epicMiddleware } from '@state/index'
 import { App } from './App'
@@ -11,7 +12,6 @@ import { App } from './App'
 render(
   <Provider store={store}>
     <React.Fragment>
-      <CssBaseline />
       <App />
     </React.Fragment>
   </Provider>,
@@ -25,7 +25,6 @@ if ((module as any).hot) {
     render(
       <Provider store={store}>
         <React.Fragment>
-          <CssBaseline />
           <NextApp />
         </React.Fragment>
       </Provider>,

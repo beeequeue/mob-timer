@@ -1,8 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import List from 'material-ui/es/List'
-import Grid from 'material-ui/es/Grid'
-import Divider from 'material-ui/es/Divider'
+import { List } from 'react-md/lib/Lists'
+import { Grid } from 'react-md/lib/Grids'
+import { Divider } from 'react-md/lib/Dividers'
 
 import { DraggableUser } from './User'
 
@@ -21,8 +21,13 @@ export class UserList extends React.PureComponent<IProps> {
   public render() {
     return (
       <Container>
-        <Grid container justify="center">
-          <List component="nav">
+        <Grid
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <List>
             {this.props.users.map((user, i) => (
               <React.Fragment key={user}>
                 {i !== 0 && <Divider />}

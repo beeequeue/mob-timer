@@ -1,11 +1,8 @@
 import * as React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
-import Button from 'material-ui/es/Button'
-import Play from '@material-ui/icons/PlayArrow'
-import Reset from '@material-ui/icons/Cached'
-import Pause from '@material-ui/icons/Pause'
+import styled, { StyledComponentClass } from 'styled-components'
+import { Button, ButtonProps } from 'react-md/lib/Buttons'
 
 import {
   setTime,
@@ -26,7 +23,7 @@ const Container = styled.div`
   align-items: center;
 `
 
-const NonShrinkButton = styled(Button)`
+const NonShrinkButton: StyledComponentClass<ButtonProps, {}> = styled(Button)`
   flex-shrink: 0;
 `
 
@@ -81,28 +78,29 @@ class TimerComponent extends React.PureComponent<IStateProps & IActionProps> {
         <br />
 
         <NonShrinkButton
-          onClick={this.startTimer}
+          flat
+          primary
+          iconChildren="play_arrow"
           disabled={duration.equals(new Time(0, 0))}
-          color="primary"
+          onClick={this.startTimer}
         >
-          <Play style={{ marginRight: '2px' }} />
           Start
           {timeLeft.toSeconds() === 0 &&
             duration.toSeconds() !== 0 &&
             ' from ' + duration.toString()}
         </NonShrinkButton>
 
-        <NonShrinkButton onClick={this.resetTimer}>
-          <Reset style={{ marginRight: '2px' }} />
+        <NonShrinkButton flat iconChildren="cached" onClick={this.resetTimer}>
           Reset
         </NonShrinkButton>
 
         <NonShrinkButton
-          onClick={this.props.stopTimer}
+          flat
+          secondary
+          iconChildren="pause"
           disabled={!this.props.timerLoop}
-          color="secondary"
+          onClick={this.props.stopTimer}
         >
-          <Pause style={{ marginRight: '2px' }} />
           Pause
         </NonShrinkButton>
       </Container>

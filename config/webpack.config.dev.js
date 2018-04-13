@@ -84,15 +84,8 @@ module.exports = {
     // https://github.com/facebookincubator/create-react-app/issues/290
     // `web` extension prefixes have been added for better support
     // for React Native Web.
-    extensions: [
-      '.ts',
-      '.tsx',
-      '.js',
-      '.json',
-      '.jsx',
-    ],
-    alias: {
-    },
+    extensions: ['.ts', '.tsx', '.js', '.json', '.jsx'],
+    alias: {},
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).
       // This often causes confusion because we only process files within src/ with babel.
@@ -157,7 +150,7 @@ module.exports = {
           // In production, we use a plugin to extract that CSS to a file, but
           // in development "style" loader enables hot editing of CSS.
           {
-            test: /\.css$/,
+            test: /\.s?css$/,
             use: [
               require.resolve('style-loader'),
               {
@@ -175,16 +168,14 @@ module.exports = {
                   plugins: () => [
                     require('postcss-flexbugs-fixes'),
                     autoprefixer({
-                      browsers: [
-                        '>1%',
-                        'last 4 versions',
-                        'Firefox ESR',
-                        'not ie < 9', // React doesn't support IE8 anyway
-                      ],
+                      browsers: ['last 5 versions'],
                       flexbox: 'no-2009',
                     }),
                   ],
                 },
+              },
+              {
+                loader: require.resolve('sass-loader'),
               },
             ],
           },

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { DragDropContext } from 'react-dnd'
 import styled from 'styled-components'
-import Divider from 'material-ui/es/Divider'
+import { Divider } from 'react-md/lib/Dividers'
 import * as HTML5Backend from 'react-dnd-html5-backend'
 
 import { TimerContainer } from './containers/Timer'
