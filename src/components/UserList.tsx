@@ -1,7 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { List } from 'react-md/lib/Lists'
-import { Grid } from 'react-md/lib/Grids'
 import { Divider } from 'react-md/lib/Dividers'
 
 import { DraggableUser } from './User'
@@ -21,27 +20,20 @@ export class UserList extends React.PureComponent<IProps> {
   public render() {
     return (
       <Container>
-        <Grid
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <List>
-            {this.props.users.map((user, i) => (
-              <React.Fragment key={user}>
-                {i !== 0 && <Divider />}
+        <List>
+          {this.props.users.map((user, i) => (
+            <React.Fragment key={user}>
+              {i !== 0 && <Divider />}
 
-                <DraggableUser
-                  user={user}
-                  active={this.props.activeUser === i}
-                  index={i}
-                  moveUser={this.props.moveUser}
-                />
-              </React.Fragment>
-            ))}
-          </List>
-        </Grid>
+              <DraggableUser
+                user={user}
+                active={this.props.activeUser === i}
+                index={i}
+                moveUser={this.props.moveUser}
+              />
+            </React.Fragment>
+          ))}
+        </List>
       </Container>
     )
   }

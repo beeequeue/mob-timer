@@ -15,12 +15,13 @@ import { Time } from '../time'
 import { Countdown } from '../components/Countdown'
 
 const Container = styled.div`
-  text-align: center;
-  height: 100%;
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
+  width: 100%;
+  padding-bottom: 25px;
+  text-align: center;
 `
 
 const NonShrinkButton: StyledComponentClass<ButtonProps, {}> = styled(Button)`

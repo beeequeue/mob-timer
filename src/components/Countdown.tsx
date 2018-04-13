@@ -1,14 +1,14 @@
 import * as React from 'react'
 import styled, { StyledComponentClass } from 'styled-components'
-import { Grid } from 'react-md/lib/Grids'
 import { Button, ButtonProps } from 'react-md/lib/Buttons'
 import { Time } from '../time'
 
-interface IProps {
-  time: Time
-  counting: boolean | null
-  onChangeTime: (time: Time) => void
-}
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  flex-shrink: 1;
+`
 
 const TimeAndButtons = styled.span`
   display: inline-flex;
@@ -23,6 +23,8 @@ const StyledButton: StyledComponentClass<
   IStyledButtonProps & ButtonProps,
   {}
 > = styled(Button)`
+  font-size: 1.5em;
+  height: auto;
   opacity: ${(p: IStyledButtonProps) => (p.counting ? 0 : 1)};
   pointer-events: ${(p: IStyledButtonProps) => (p.counting ? 'none' : 'all')};
   transition-property: background-color, box-shadow, opacity !important;
@@ -35,6 +37,12 @@ const Timer = styled.span`
     font-size: 15vw;
   }
 `
+
+interface IProps {
+  time: Time
+  counting: boolean | null
+  onChangeTime: (time: Time) => void
+}
 
 export class Countdown extends React.PureComponent<IProps> {
   private changeMinutes = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -67,14 +75,7 @@ export class Countdown extends React.PureComponent<IProps> {
     const { time, counting } = this.props
 
     return (
-      <Grid
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100%',
-          flexShrink: 1,
-        }}
-      >
+      <Container>
         <TimeAndButtons>
           <StyledButton flat counting={counting} onClick={this.changeMinutes}>
             +1
@@ -104,7 +105,7 @@ export class Countdown extends React.PureComponent<IProps> {
             -10
           </StyledButton>
         </TimeAndButtons>
-      </Grid>
+      </Container>
     )
   }
 }

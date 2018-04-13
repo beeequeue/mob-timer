@@ -10,7 +10,7 @@ import {
   DropTargetSpec,
   DropTarget,
 } from 'react-dnd'
-import { ListItem } from 'react-md/lib/Lists'
+import { ListItemControl } from 'react-md/lib/Lists'
 
 interface IProps {
   readonly user: string
@@ -99,15 +99,16 @@ export class DraggableUser extends React.PureComponent<IProps> {
     return connectDragSource(
       connectDropTarget(
         <span>
-          <ListItem
-            primaryText={this.props.user}
+          <ListItemControl
             style={{
-              textAlign: 'center',
-              minWidth: 125,
-              padding: 0,
+              minWidth: 150,
               opacity: (this.props as any).isDragging ? 0 : 1,
               fontWeight: this.props.active ? 500 : 'inherit',
+              textDecoration: this.props.active ? 'underline' : 'inherit',
+              textAlign: 'center',
+              fontSize: '1.15em',
             }}
+            primaryAction={<span>{this.props.user}</span>}
           />
         </span>
       )
