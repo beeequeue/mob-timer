@@ -71,7 +71,7 @@ export class Countdown extends React.PureComponent<IProps> {
         container
         alignItems="center"
         justify="center"
-        style={{ height: '100%' }}
+        style={{ height: '100%', flexShrink: 1 }}
       >
         <TimeAndButtons>
           <StyledButton
