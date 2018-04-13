@@ -6,6 +6,7 @@ import * as HTML5Backend from 'react-dnd-html5-backend'
 
 import { TimerContainer } from './containers/Timer'
 import { UserContainer } from './containers/Users'
+import { GitHubLink } from './components/GitHubLink'
 
 const Container = styled.div`
   font-family: 'Roboto', sans-serif;
@@ -29,6 +30,8 @@ export class App extends React.Component {
         <Divider />
 
         <UserContainer />
+
+        <GitHubLink />
       </Container>
     ) as any
   }
