@@ -32,7 +32,9 @@ const target: DropTargetSpec<IProps> = {
     }
 
     // Determine rectangle on screen
-    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect()
+    const hoverBoundingRect = (findDOMNode(
+      component
+    ) as Element).getBoundingClientRect()
 
     // Get height of element
     const elementHeight = hoverBoundingRect.bottom - hoverBoundingRect.top
