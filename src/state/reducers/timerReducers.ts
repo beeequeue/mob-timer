@@ -32,6 +32,8 @@ export const timerReducers = (state = initialState, action: RootAction) => {
 
     case START_TIMER:
       return Object.assign({}, state, {
+        timeLeft:
+          state.timeLeft.toSeconds() !== 0 ? state.timeLeft : state.duration,
         timerLoop: action.payload,
       })
 

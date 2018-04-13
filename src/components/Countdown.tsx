@@ -1,17 +1,31 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { StyledComponentClass } from 'styled-components'
 import Grid from 'material-ui/es/Grid'
 import Button from 'material-ui/es/Button'
 import { Time } from '../time'
 
 interface IProps {
   time: Time
+  counting: boolean | null
   onChangeTime: (time: Time) => void
 }
 
 const TimeAndButtons = styled.span`
   display: inline-flex;
   flex-direction: column;
+`
+
+interface IStyledButtonProps {
+  counting: boolean | null
+}
+
+const StyledButton: StyledComponentClass<
+  IStyledButtonProps & typeof Button.defaultProps,
+  {}
+> = styled(Button)`
+  opacity: ${(p: IStyledButtonProps) => (p.counting ? 0 : 1)};
+  pointer-events: ${(p: IStyledButtonProps) => (p.counting ? 'none' : 'all')};
+  transition-property: background-color, box-shadow, opacity !important;
 `
 
 const Timer = styled.span`
@@ -50,7 +64,7 @@ export class Countdown extends React.PureComponent<IProps> {
   }
 
   public render() {
-    const { time } = this.props
+    const { time, counting } = this.props
 
     return (
       <Grid
@@ -60,33 +74,49 @@ export class Countdown extends React.PureComponent<IProps> {
         style={{ height: '100%' }}
       >
         <TimeAndButtons>
-          <Button onClick={this.changeMinutes} size="large">
+          <StyledButton
+            onClick={this.changeMinutes}
+            counting={counting}
+            size="large"
+          >
             +1
-          </Button>
+          </StyledButton>
 
           <Timer>
             {time.toString().substring(0, time.toString().indexOf(':'))}
           </Timer>
 
-          <Button onClick={this.changeMinutes} size="large">
+          <StyledButton
+            onClick={this.changeMinutes}
+            counting={counting}
+            size="large"
+          >
             -1
-          </Button>
+          </StyledButton>
         </TimeAndButtons>
 
         <Timer>:</Timer>
 
         <TimeAndButtons>
-          <Button onClick={this.changeSeconds} size="large">
+          <StyledButton
+            onClick={this.changeSeconds}
+            counting={counting}
+            size="large"
+          >
             +10
-          </Button>
+          </StyledButton>
 
           <Timer>
             {time.toString().substring(time.toString().indexOf(':') + 1)}
           </Timer>
 
-          <Button onClick={this.changeSeconds} size="large">
+          <StyledButton
+            onClick={this.changeSeconds}
+            counting={counting}
+            size="large"
+          >
             -10
-          </Button>
+          </StyledButton>
         </TimeAndButtons>
       </Grid>
     )

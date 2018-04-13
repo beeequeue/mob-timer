@@ -67,19 +67,29 @@ class TimerComponent extends React.PureComponent<IStateProps & IActionProps> {
   }
 
   public render() {
+    const { timeLeft, duration, timerLoop } = this.props
+
     return (
       <Container>
         <Countdown
-          time={this.props.timeLeft}
+          time={timeLeft}
+          counting={timerLoop ? true : null}
           onChangeTime={this.props.setTime}
         />
 
         <br />
         <br />
 
-        <NonShrinkButton onClick={this.startTimer} color="primary">
+        <NonShrinkButton
+          onClick={this.startTimer}
+          disabled={duration.equals(new Time(0, 0))}
+          color="primary"
+        >
           <Play style={{ marginRight: '2px' }} />
           Start
+          {timeLeft.toSeconds() === 0 &&
+            duration.toSeconds() !== 0 &&
+            ' from ' + duration.toString()}
         </NonShrinkButton>
 
         <NonShrinkButton onClick={this.resetTimer}>
@@ -93,7 +103,7 @@ class TimerComponent extends React.PureComponent<IStateProps & IActionProps> {
           color="secondary"
         >
           <Pause style={{ marginRight: '2px' }} />
-          Stop
+          Pause
         </NonShrinkButton>
       </Container>
     )

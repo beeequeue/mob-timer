@@ -43,4 +43,10 @@ export class Time {
 
     return new Time(Number(match[1]), Number(match[2]))
   }
+
+  public equals(other: Time) {
+    return this.minutes === other.minutes && this.seconds === other.seconds
+  }
+
+  public toSeconds = () => this.minutes * 60 + this.seconds
 }
