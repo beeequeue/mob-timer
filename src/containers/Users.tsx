@@ -3,7 +3,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 
 import { IState } from '@state/index'
-import { setOrder } from '@state/actions/usersActions'
+import { setOrder, addUser, removeUser } from '@state/actions/usersActions'
 import { UserList } from '../components/UserList'
 
 interface IStateProps {
@@ -13,6 +13,8 @@ interface IStateProps {
 
 interface IActionProps {
   setOrder: typeof setOrder
+  addUser: typeof addUser
+  removeUser: typeof removeUser
 }
 
 const mapState = ({ users }: IState): IStateProps => ({
@@ -20,7 +22,7 @@ const mapState = ({ users }: IState): IStateProps => ({
   activeUser: users.activeUser,
 })
 
-const mapActions = { setOrder }
+const mapActions = { setOrder, addUser, removeUser }
 
 class UserComponent extends React.PureComponent<IStateProps & IActionProps> {
   private moveUser = (dragIndex: number, hoverIndex: number) => {
@@ -33,11 +35,15 @@ class UserComponent extends React.PureComponent<IStateProps & IActionProps> {
 
   public render() {
     return (
-      <UserList
-        users={this.props.users}
-        activeUser={this.props.activeUser}
-        moveUser={this.moveUser}
-      />
+      <React.Fragment>
+        <UserList
+          users={this.props.users}
+          activeUser={this.props.activeUser}
+          moveUser={this.moveUser}
+          addUser={this.props.addUser}
+          removeUser={this.props.removeUser}
+        />
+      </React.Fragment>
     )
   }
 }

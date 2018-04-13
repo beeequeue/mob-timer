@@ -3,6 +3,8 @@ import {
   RootAction,
   SET_ORDER,
   SET_ACTIVE_NEXT,
+  REMOVE_USER,
+  ADD_USER,
 } from '@state/actions/usersActions'
 
 export type IStateUsers = {
@@ -23,15 +25,20 @@ export const usersReducers = (state = initialState, action: RootAction) => {
       })
 
     case SET_ACTIVE_NEXT:
-      let nextUser = state.activeUser + 1
-
-      if (nextUser >= state.list.length) {
-        nextUser = 0
-      }
+      const nextUser = state.activeUser + 1
 
       return Object.assign({}, state, {
-        activeUser: nextUser,
+        activeUser: nextUser < state.list.length ? nextUser : 0,
       })
+
+    case ADD_USER:
+      return Object.assign({}, state, { list: [...state.list, action.payload] })
+
+    case REMOVE_USER:
+      const list = [...state.list]
+      list.splice(action.payload, 1)
+
+      return Object.assign({}, state, { list })
 
     default:
       return state

@@ -11,12 +11,14 @@ import {
   DropTarget,
 } from 'react-dnd'
 import { ListItemControl } from 'react-md/lib/Lists'
+import { Button } from 'react-md/lib/Buttons'
 
 interface IProps {
   readonly user: string
   readonly active: boolean
   readonly index: number
-  moveUser(dragIndex: number, hoverIndex: number): void
+  readonly moveUser: (dragIndex: number, hoverIndex: number) => void
+  readonly removeUser: (index: number) => void
 }
 
 const target: DropTargetSpec<IProps> = {
@@ -99,17 +101,46 @@ export class DraggableUser extends React.PureComponent<IProps> {
     return connectDragSource(
       connectDropTarget(
         <span>
+          {/* Should replace this with styled component eventually */}
           <ListItemControl
             style={{
               minWidth: 150,
+              paddingLeft: 26,
               opacity: (this.props as any).isDragging ? 0 : 1,
               fontWeight: this.props.active ? 500 : 'inherit',
               textDecoration: this.props.active ? 'underline' : 'inherit',
-              textShadow: this.props.active ? '0 0 4px rgba(0,0,0,0.45)' : 'none',
+              textShadow: this.props.active
+                ? '0 0 4px rgba(0,0,0,0.45)'
+                : 'none',
               textAlign: 'center',
               fontSize: '1.15em',
+              cursor: 'grab',
             }}
-            primaryAction={<span>{this.props.user}</span>}
+            primaryAction={
+              <span
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <span>{this.props.user}</span>
+
+                {/* tslint:disable:jsx-no-lambda */}
+                {/* We have to keep this stupid lambda function because the types for */}
+                {/* DropTarget and DragSource scream bloody murder if you add a property to the class */}
+                <Button
+                  onClick={() => {
+                    if (confirm('Are you sure you want to delete this user?')) {
+                      this.props.removeUser(this.props.index)
+                    }
+                  }}
+                  icon
+                >
+                  close
+                </Button>
+              </span>
+            }
           />
         </span>
       )
