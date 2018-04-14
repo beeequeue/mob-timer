@@ -55,7 +55,7 @@ export class AddUserDialog extends React.PureComponent<IProps, IState> {
           value={this.state.value}
           onChange={this.onFieldChange}
           error={this.state.error}
-          errorText="Please enter a name longer than 2 characters."
+          errorText={this.state.error ? "Please enter a name longer than 2 characters." : null}
         />
       </DialogContainer>
     )

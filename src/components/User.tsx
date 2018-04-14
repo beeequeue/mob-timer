@@ -11,7 +11,12 @@ import {
   DropTarget,
 } from 'react-dnd'
 import { ListItemControl } from 'react-md/lib/Lists'
+import { SelectionControl } from 'react-md/lib/SelectionControls'
 import { Button } from 'react-md/lib/Buttons'
+
+const buttonMargin: React.CSSProperties = {
+  marginLeft: 10,
+}
 
 interface IProps {
   readonly user: string
@@ -19,6 +24,7 @@ interface IProps {
   readonly index: number
   readonly moveUser: (dragIndex: number, hoverIndex: number) => void
   readonly removeUser: (index: number) => void
+  readonly setActive: (index: number) => void
 }
 
 const target: DropTargetSpec<IProps> = {
@@ -96,7 +102,7 @@ const sourceCollect = (
 @DragSource('user', source, sourceCollect)
 export class DraggableUser extends React.PureComponent<IProps> {
   public render() {
-    const { connectDropTarget, connectDragSource } = this.props as any
+    const { connectDropTarget, connectDragSource, index } = this.props as any
 
     return connectDragSource(
       connectDropTarget(
@@ -105,7 +111,7 @@ export class DraggableUser extends React.PureComponent<IProps> {
           <ListItemControl
             style={{
               minWidth: 150,
-              paddingLeft: 26,
+              paddingLeft: 16,
               opacity: (this.props as any).isDragging ? 0 : 1,
               fontWeight: this.props.active ? 500 : 'inherit',
               textDecoration: this.props.active ? 'underline' : 'inherit',
@@ -124,18 +130,26 @@ export class DraggableUser extends React.PureComponent<IProps> {
                   justifyContent: 'space-between',
                 }}
               >
-                <span>{this.props.user}</span>
-
                 {/* tslint:disable:jsx-no-lambda */}
-                {/* We have to keep this stupid lambda function because the types for */}
+                {/* We have to keep these stupid lambda functions because the types for */}
                 {/* DropTarget and DragSource scream bloody murder if you add a property to the class */}
+                <SelectionControl
+                  id={`current-active-user-radio-${index}`}
+                  name={`current-active-user-radio`}
+                  type="radio"
+                  label={this.props.user}
+                  checked={this.props.active}
+                  onChange={() => this.props.setActive(index)}
+                />
+
                 <Button
+                  icon
+                  style={buttonMargin}
                   onClick={() => {
                     if (confirm('Are you sure you want to delete this user?')) {
-                      this.props.removeUser(this.props.index)
+                      this.props.removeUser(index)
                     }
                   }}
-                  icon
                 >
                   close
                 </Button>

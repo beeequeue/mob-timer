@@ -5,6 +5,7 @@ import {
   SET_ACTIVE_NEXT,
   REMOVE_USER,
   ADD_USER,
+  SET_ACTIVE,
 } from '@state/actions/usersActions'
 
 export type IStateUsers = {
@@ -39,6 +40,11 @@ export const usersReducers = (state = initialState, action: RootAction) => {
       list.splice(action.payload, 1)
 
       return Object.assign({}, state, { list })
+
+    case SET_ACTIVE:
+      return Object.assign({}, state, {
+        activeUser: action.payload,
+      })
 
     default:
       return state

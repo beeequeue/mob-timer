@@ -20,6 +20,7 @@ interface IProps {
   readonly moveUser: (dragIndex: number, hoverIndex: number) => void
   readonly addUser: (name: string) => void
   readonly removeUser: (index: number) => void
+  readonly setActive: (index: number) => void
 }
 
 interface IState {
@@ -53,6 +54,7 @@ export class UserList extends React.PureComponent<IProps, IState> {
                 index={i}
                 moveUser={this.props.moveUser}
                 removeUser={this.props.removeUser}
+                setActive={this.props.setActive}
               />
             </React.Fragment>
           ))}
