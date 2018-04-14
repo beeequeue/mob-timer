@@ -6,6 +6,7 @@ export const START_TIMER = 'START_TIMER'
 export const STOP_TIMER = 'STOP_TIMER'
 export const CLEAR_LOOP = 'CLEAR_LOOP'
 export const COUNT_DOWN_ONE_SECOND = 'COUNT_DOWN_ONE_SECOND'
+export const COUNT_DOWN_FINISHED = 'COUNT_DOWN_FINISHED'
 
 export type Actions = {
   SET_TIME: {
@@ -24,6 +25,9 @@ export type Actions = {
   }
   COUNT_DOWN_ONE_SECOND: {
     type: typeof COUNT_DOWN_ONE_SECOND
+  }
+  COUNT_DOWN_FINISHED: {
+    type: typeof COUNT_DOWN_FINISHED
   }
 }
 
@@ -49,4 +53,8 @@ export const clearLoop = (): Actions[typeof CLEAR_LOOP] => ({
 
 export const countDownOneSecond = (): Actions[typeof COUNT_DOWN_ONE_SECOND] => ({
   type: COUNT_DOWN_ONE_SECOND,
+})
+
+export const countDownFinished = (): Actions[typeof COUNT_DOWN_FINISHED] => ({
+  type: COUNT_DOWN_FINISHED,
 })

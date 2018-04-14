@@ -9,7 +9,7 @@ import 'rxjs/add/operator/ignoreElements'
 
 import { timerReducers, IStateTimer } from '@state/reducers/timerReducers'
 import { usersReducers, IStateUsers } from '@state/reducers/usersReducers'
-import { stopTimerEpic, outOfTimeEpic } from '@state/epics/timerEpics'
+import { timerEpics } from '@state/epics/timerEpics'
 
 declare module 'redux' {
   // tslint:disable:interface-name
@@ -26,7 +26,7 @@ export type IState = {
   readonly users: IStateUsers
 }
 
-export const rootEpic = combineEpics(stopTimerEpic as any, outOfTimeEpic as any)
+export const rootEpic = combineEpics(timerEpics)
 
 export const rootReducers = combineReducers({
   timer: timerReducers,
