@@ -10,7 +10,7 @@ import {
   SET_ACTIVE,
 } from '@state/actions/usersActions'
 
-type stopTimerEpicType = ActionsObservable<
+type cacheSaveSettingsEpicType = ActionsObservable<
   | timerActions[typeof SET_TIME]
   | userActions[
       | typeof ADD_USER
@@ -19,11 +19,11 @@ type stopTimerEpicType = ActionsObservable<
       | typeof SET_ACTIVE]
 >
 
-const SAVE_TIMEOUT = 1500
+const SAVE_TIMEOUT = 500
 let saveTimer: number | null
 
 export const cacheSaveSettingsEpic = (
-  action$: stopTimerEpicType,
+  action$: cacheSaveSettingsEpicType,
   store: MiddlewareAPI<IState>
 ) =>
   action$
@@ -33,8 +33,12 @@ export const cacheSaveSettingsEpic = (
         clearTimeout(saveTimer)
       }
 
+      const stateToSave: any = JSON.parse(JSON.stringify(store.getState()))
+      stateToSave.timer.timeLeft = stateToSave.timer.duration
+      stateToSave.timer.timerLoop = null
+
       saveTimer = window.setTimeout(() => {
-        localStorage.setItem('cache', JSON.stringify(store.getState()))
+        localStorage.setItem('cache', JSON.stringify(stateToSave))
 
         saveTimer = null
       }, SAVE_TIMEOUT)
