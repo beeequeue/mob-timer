@@ -15,8 +15,10 @@ const TimeAndButtons = styled.span`
   flex-direction: column;
 `
 
+// We need to pass strings to stop an error message due to styled-components
+// https://github.com/BeeeQueue/mob-timer/issues/7
 interface IStyledButtonProps {
-  counting: boolean | null
+  counting: 'true' | 'false'
 }
 
 const StyledButton: StyledComponentClass<
@@ -25,8 +27,9 @@ const StyledButton: StyledComponentClass<
 > = styled(Button)`
   font-size: 1.5em;
   height: auto;
-  opacity: ${(p: IStyledButtonProps) => (p.counting ? 0 : 1)};
-  pointer-events: ${(p: IStyledButtonProps) => (p.counting ? 'none' : 'all')};
+  opacity: ${(p: IStyledButtonProps) => (p.counting === 'true' ? 0 : 1)};
+  pointer-events: ${(p: IStyledButtonProps) =>
+    p.counting === 'true' ? 'none' : 'all'};
   transition-property: background-color, box-shadow, opacity !important;
 `
 
@@ -40,7 +43,7 @@ const Timer = styled.span`
 
 interface IProps {
   time: Time
-  counting: boolean | null
+  counting: 'true' | 'false'
   onChangeTime: (time: Time) => void
 }
 

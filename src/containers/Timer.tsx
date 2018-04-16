@@ -71,7 +71,7 @@ class TimerComponent extends React.PureComponent<IStateProps & IActionProps> {
       <Container>
         <Countdown
           time={timeLeft}
-          counting={timerLoop ? true : null}
+          counting={timerLoop ? 'true' : 'false'}
           onChangeTime={this.props.setTime}
         />
 
