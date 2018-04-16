@@ -1,4 +1,5 @@
 import * as React from 'react'
+import keydown from 'react-keydown/es'
 import { Button } from 'react-md/lib/Buttons'
 import { DialogContainer } from 'react-md/lib/Dialogs'
 import { Autocomplete } from 'react-md/lib/Autocompletes'
@@ -28,6 +29,7 @@ export class AddUserDialog extends React.PureComponent<IProps, IState> {
     names: JSON.parse(localStorage.getItem('names') || '[]'),
   }
 
+  @keydown('enter')
   private onConfirm() {
     const name = this.state.value
 
@@ -45,6 +47,10 @@ export class AddUserDialog extends React.PureComponent<IProps, IState> {
     }
 
     this.setState({ names: [name, ...names], error: false })
+  }
+
+  private onInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.keyCode === 13) return this.onConfirm()
   }
 
   private onFieldChange = (value: string) => {
@@ -81,7 +87,7 @@ export class AddUserDialog extends React.PureComponent<IProps, IState> {
           onChange={this.onFieldChange}
           onAutocomplete={this.selectName}
           error={this.state.error}
-          errorText={this.state.error ? "Please enter a name longer than 2 characters." : null}
+          onKeyDown={this.onInputKeyDown}
         />
       </DialogContainer>
     )
