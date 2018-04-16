@@ -18,7 +18,14 @@ const initialState: IStateUsers = {
   activeUser: 0,
 }
 
-export const usersReducers = (state = initialState, action: RootAction) => {
+const cachedSettings = JSON.parse(
+  localStorage.getItem('cache') || '{ "users": null }'
+).users
+
+export const usersReducers = (
+  state = Object.assign({}, initialState, cachedSettings),
+  action: RootAction
+) => {
   switch (action.type) {
     case SET_ORDER:
       return Object.assign({}, state, {

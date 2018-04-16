@@ -20,7 +20,23 @@ const initialState: IStateTimer = {
   duration: new Time(),
 }
 
-export const timerReducers = (state = initialState, action: RootAction) => {
+const cachedSettings = JSON.parse(
+  localStorage.getItem('cache') || '{ "timer": null }'
+).timer
+
+cachedSettings.timeLeft = new Time(
+  cachedSettings.timeLeft.minutes,
+  cachedSettings.timeLeft.seconds
+)
+cachedSettings.duration = new Time(
+  cachedSettings.duration.minutes,
+  cachedSettings.duration.seconds
+)
+
+export const timerReducers = (
+  state = Object.assign({}, initialState, cachedSettings),
+  action: RootAction
+) => {
   switch (action.type) {
     case SET_TIME:
       const time = Time.fromTime(action.payload)
