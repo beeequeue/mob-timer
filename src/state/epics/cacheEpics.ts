@@ -19,6 +19,8 @@ type cacheSaveSettingsEpicType = ActionsObservable<
       | typeof SET_ACTIVE]
 >
 
+type cacheSaveNameEpicType = ActionsObservable<userActions[typeof ADD_USER]>
+
 const SAVE_TIMEOUT = 500
 let saveTimer: number | null
 
@@ -45,4 +47,22 @@ export const cacheSaveSettingsEpic = (
     })
     .ignoreElements()
 
-export const cacheEpics = combineEpics(cacheSaveSettingsEpic)
+export const cacheSaveNameEpic = (
+  action$: cacheSaveNameEpicType,
+  store: MiddlewareAPI<IState>
+) =>
+  action$
+    .ofType(ADD_USER)
+    .do(action => {
+      const name = action.payload
+      const names: string[] = JSON.parse(localStorage.getItem('names') || '[]')
+
+      if (names.includes(name)) {
+        names.splice(names.indexOf(name))
+      }
+
+      localStorage.setItem('names', JSON.stringify([name, ...names]))
+    })
+    .ignoreElements()
+
+export const cacheEpics = combineEpics(cacheSaveSettingsEpic, cacheSaveNameEpic)
