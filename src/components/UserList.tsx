@@ -12,6 +12,7 @@ const Container = styled.span`
   flex-direction: column;
   justify-content: center;
   background: #fff;
+  min-width: 170px;
 `
 
 interface IProps {

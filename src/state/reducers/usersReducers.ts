@@ -14,7 +14,7 @@ export type IStateUsers = {
 }
 
 const initialState: IStateUsers = {
-  list: ['Adam', 'Johan', 'Aleksandra', 'Siret'],
+  list: [],
   activeUser: 0,
 }
 
