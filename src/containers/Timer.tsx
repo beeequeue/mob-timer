@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { compose } from 'redux'
 import { connect } from 'react-redux'
 import styled, { StyledComponentClass } from 'styled-components'
 import { Button, ButtonProps } from 'react-md/lib/Buttons'
@@ -31,7 +30,7 @@ const NonShrinkButton: StyledComponentClass<ButtonProps, {}> = styled(Button)`
 interface IStateProps {
   duration: Time
   timeLeft: Time
-  timerLoop: number | undefined
+  counting: boolean
 }
 
 interface IActionProps {
@@ -44,19 +43,16 @@ interface IActionProps {
 const mapState = ({ timer }: IState): IStateProps => ({
   duration: timer.duration,
   timeLeft: timer.timeLeft,
-  timerLoop: timer.timerLoop,
+  counting: timer.counting,
 })
 
 const mapActions = { setTime, startTimer, stopTimer, countDownOneSecond }
 
 class TimerComponent extends React.PureComponent<IStateProps & IActionProps> {
   private startTimer = () => {
-    if (this.props.timerLoop) return
+    if (this.props.counting) return
 
-    this.props.startTimer(setInterval(
-      () => this.props.countDownOneSecond(),
-      1000
-    ) as any)
+    this.props.startTimer()
   }
 
   private resetTimer = () => {
@@ -65,13 +61,13 @@ class TimerComponent extends React.PureComponent<IStateProps & IActionProps> {
   }
 
   public render() {
-    const { timeLeft, duration, timerLoop } = this.props
+    const { timeLeft, duration, counting } = this.props
 
     return (
       <Container>
         <Countdown
           time={timeLeft}
-          counting={timerLoop ? 'true' : 'false'}
+          counting={counting ? 'true' : 'false'}
           onChangeTime={this.props.setTime}
         />
 
@@ -82,7 +78,7 @@ class TimerComponent extends React.PureComponent<IStateProps & IActionProps> {
           flat
           primary
           iconChildren="play_arrow"
-          disabled={duration.equals(new Time(0, 0))}
+          disabled={duration.equals(new Time(0, 0)) || counting}
           onClick={this.startTimer}
         >
           Start
@@ -99,7 +95,7 @@ class TimerComponent extends React.PureComponent<IStateProps & IActionProps> {
           flat
           secondary
           iconChildren="pause"
-          disabled={!this.props.timerLoop}
+          disabled={!this.props.counting}
           onClick={this.props.stopTimer}
         >
           Pause
@@ -109,6 +105,4 @@ class TimerComponent extends React.PureComponent<IStateProps & IActionProps> {
   }
 }
 
-export const TimerContainer = compose(connect(mapState, mapActions))(
-  TimerComponent
-)
+export const TimerContainer = connect(mapState, mapActions)(TimerComponent)

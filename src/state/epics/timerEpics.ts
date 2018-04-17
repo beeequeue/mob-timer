@@ -1,33 +1,34 @@
 import { MiddlewareAPI } from 'redux'
 import { ActionsObservable, combineEpics } from 'redux-observable'
+import { Observable } from 'rxjs/Observable'
 import { IState } from '@state/index'
 import {
   Actions,
+  START_TIMER,
   STOP_TIMER,
   COUNT_DOWN_ONE_SECOND,
-  stopTimer,
-  clearLoop,
-  countDownFinished,
   COUNT_DOWN_FINISHED,
+  stopTimer,
+  countDownOneSecond,
+  countDownFinished,
 } from '@state/actions/timerActions'
 import { setActiveNext } from '@state/actions/usersActions'
 
-type stopTimerEpicType = ActionsObservable<Actions[typeof STOP_TIMER]>
+type startTimerEpicType = ActionsObservable<Actions[typeof START_TIMER]>
 type countDownFinishedEpicType = ActionsObservable<
   Actions[typeof COUNT_DOWN_ONE_SECOND]
 >
-type alertEpicType = ActionsObservable<
-  Actions[typeof COUNT_DOWN_FINISHED]
->
+type alertEpicType = ActionsObservable<Actions[typeof COUNT_DOWN_FINISHED]>
 
-export const stopTimerEpic = (
-  action$: stopTimerEpicType,
+export const startTimerEpic = (
+  action$: startTimerEpicType,
   store: MiddlewareAPI<IState>
 ) =>
-  action$
-    .ofType(STOP_TIMER)
-    .do(() => clearInterval(store.getState().timer.timerLoop))
-    .mapTo(clearLoop())
+  action$.ofType(START_TIMER).switchMap(() =>
+    Observable.interval(1000)
+      .takeUntil(action$.ofType(STOP_TIMER))
+      .mapTo(countDownOneSecond())
+  )
 
 export const countDownFinishedEpic = (
   action$: countDownFinishedEpicType,
@@ -55,7 +56,7 @@ export const alertEpic = (
     .ignoreElements()
 
 export const timerEpics = combineEpics(
-  stopTimerEpic,
+  startTimerEpic,
   countDownFinishedEpic as any,
   alertEpic
 )

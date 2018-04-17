@@ -1,21 +1,21 @@
 // tslint:disable:interface-over-type-literal
 import {
-  SET_TIME,
-  START_TIMER,
-  COUNT_DOWN_ONE_SECOND,
-  CLEAR_LOOP,
   RootAction,
+  SET_TIME,
+  COUNT_DOWN_ONE_SECOND,
+  START_TIMER,
+  STOP_TIMER,
 } from '@state/actions/timerActions'
 import { Time } from '../../time'
 
 export type IStateTimer = {
-  readonly timerLoop: number | undefined
+  readonly counting: boolean
   readonly timeLeft: Time
   readonly duration: Time
 }
 
 const initialState: IStateTimer = {
-  timerLoop: undefined,
+  counting: false,
   timeLeft: new Time(),
   duration: new Time(),
 }
@@ -50,12 +50,12 @@ export const timerReducers = (
       return Object.assign({}, state, {
         timeLeft:
           state.timeLeft.toSeconds() !== 0 ? state.timeLeft : state.duration,
-        timerLoop: action.payload,
+        counting: true,
       })
 
-    case CLEAR_LOOP:
+    case STOP_TIMER:
       return Object.assign({}, state, {
-        timerLoop: null,
+        counting: false,
       })
 
     case COUNT_DOWN_ONE_SECOND:

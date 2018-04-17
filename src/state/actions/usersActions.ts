@@ -6,23 +6,23 @@ export const SET_ACTIVE = 'SET_ACTIVE'
 export const SET_ACTIVE_NEXT = 'SET_ACTIVE_NEXT'
 
 export type Actions = {
-  ADD_USER: {
+  readonly ADD_USER: {
     type: typeof ADD_USER
     payload: string
   }
-  REMOVE_USER: {
+  readonly REMOVE_USER: {
     type: typeof REMOVE_USER
     payload: number
   }
-  SET_ORDER: {
+  readonly SET_ORDER: {
     type: typeof SET_ORDER
     payload: string[]
   }
-  SET_ACTIVE: {
+  readonly SET_ACTIVE: {
     type: typeof SET_ACTIVE
     payload: number
   }
-  SET_ACTIVE_NEXT: {
+  readonly SET_ACTIVE_NEXT: {
     type: typeof SET_ACTIVE_NEXT
   }
 }

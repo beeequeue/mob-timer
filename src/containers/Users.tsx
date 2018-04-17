@@ -1,9 +1,13 @@
 import * as React from 'react'
-import { compose } from 'redux'
 import { connect } from 'react-redux'
 
 import { IState } from '@state/index'
-import { setOrder, addUser, removeUser, setActive } from '@state/actions/usersActions'
+import {
+  setOrder,
+  addUser,
+  removeUser,
+  setActive,
+} from '@state/actions/usersActions'
 import { UserList } from '../components/UserList'
 
 interface IStateProps {
@@ -50,6 +54,4 @@ class UserComponent extends React.PureComponent<IStateProps & IActionProps> {
   }
 }
 
-export const UserContainer = compose(connect(mapState, mapActions))(
-  UserComponent
-)
+export const UserContainer = connect(mapState, mapActions)(UserComponent)

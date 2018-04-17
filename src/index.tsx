@@ -1,11 +1,16 @@
 import * as React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
+import { DragDropContextProvider as DnDCProvider } from 'react-dnd'
+import * as HTML5Backend from 'react-dnd-html5-backend'
 import 'rxjs/add/operator/do'
 import 'rxjs/add/operator/filter'
 import 'rxjs/add/operator/mapTo'
 import 'rxjs/add/operator/mergeMap'
 import 'rxjs/add/operator/ignoreElements'
+import 'rxjs/add/operator/takeUntil'
+import 'rxjs/add/operator/switchMap'
+import 'rxjs/add/observable/interval'
 
 import 'normalize.css'
 import './index.scss'
@@ -16,9 +21,11 @@ import { App } from './App'
 
 render(
   <Provider store={store}>
-    <React.Fragment>
-      <App />
-    </React.Fragment>
+    <DnDCProvider backend={HTML5Backend}>
+      <React.Fragment>
+        <App />
+      </React.Fragment>
+    </DnDCProvider>
   </Provider>,
   document.getElementById('root') as HTMLElement
 )
@@ -29,9 +36,11 @@ if ((module as any).hot) {
 
     render(
       <Provider store={store}>
-        <React.Fragment>
-          <NextApp />
-        </React.Fragment>
+        <DnDCProvider backend={HTML5Backend}>
+          <React.Fragment>
+            <NextApp />
+          </React.Fragment>
+        </DnDCProvider>
       </Provider>,
       document.getElementById('root')
     )
