@@ -24,14 +24,17 @@ const cachedSettings = JSON.parse(
   localStorage.getItem('cache') || '{ "timer": null }'
 ).timer
 
-cachedSettings.timeLeft = new Time(
-  cachedSettings.timeLeft.minutes,
-  cachedSettings.timeLeft.seconds
-)
-cachedSettings.duration = new Time(
-  cachedSettings.duration.minutes,
-  cachedSettings.duration.seconds
-)
+if (cachedSettings) {
+  cachedSettings.timeLeft = new Time(
+    cachedSettings.timeLeft.minutes,
+    cachedSettings.timeLeft.seconds
+  )
+
+  cachedSettings.duration = new Time(
+    cachedSettings.duration.minutes,
+    cachedSettings.duration.seconds
+  )
+}
 
 export const timerReducers = (
   state = Object.assign({}, initialState, cachedSettings),

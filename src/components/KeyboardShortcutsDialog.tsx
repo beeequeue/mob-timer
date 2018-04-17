@@ -46,7 +46,7 @@ export class KeyboardShortcutsDialog extends React.PureComponent<IProps> {
           <FontIcon>space_bar</FontIcon> Start / pause the timer
         </Instruction>
 
-        <Instruction title="Spacebar">
+        <Instruction title="R">
           <Key>R</Key> Reset the timer
         </Instruction>
       </DialogContainer>
