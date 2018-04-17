@@ -9,9 +9,10 @@ import {
   stopTimer,
   countDownOneSecond,
 } from '@state/actions/timerActions'
-import { IState } from '@state/index'
+import { IState as IRootState } from '@state/index'
 import { Time } from '../time'
 import { Countdown } from '../components/Countdown'
+import { KeyboardShortcutsDialog } from '../components/KeyboardShortcutsDialog'
 
 const Container = styled.div`
   display: flex;
@@ -33,14 +34,14 @@ interface IStateProps {
   counting: boolean
 }
 
-interface IActionProps {
+interface IDispatchProps {
   setTime: typeof setTime
   startTimer: typeof startTimer
   stopTimer: typeof stopTimer
   countDownOneSecond: typeof countDownOneSecond
 }
 
-const mapState = ({ timer }: IState): IStateProps => ({
+const mapState = ({ timer }: IRootState): IStateProps => ({
   duration: timer.duration,
   timeLeft: timer.timeLeft,
   counting: timer.counting,
@@ -48,7 +49,22 @@ const mapState = ({ timer }: IState): IStateProps => ({
 
 const mapActions = { setTime, startTimer, stopTimer, countDownOneSecond }
 
-class TimerComponent extends React.PureComponent<IStateProps & IActionProps> {
+interface IState {
+  dialogVisible: boolean
+}
+
+class TimerComponent extends React.PureComponent<
+  IStateProps & IDispatchProps,
+  IState
+> {
+  public state = {
+    dialogVisible: false,
+  }
+
+  private showDialog = () => this.setState({ dialogVisible: true })
+
+  private hideDialog = () => this.setState({ dialogVisible: false })
+
   private startTimer = () => {
     if (this.props.counting) return
 
@@ -71,8 +87,9 @@ class TimerComponent extends React.PureComponent<IStateProps & IActionProps> {
           onChangeTime={this.props.setTime}
         />
 
-        <br />
-        <br />
+        <NonShrinkButton icon onClick={this.showDialog}>
+          keyboard
+        </NonShrinkButton>
 
         <NonShrinkButton
           flat
@@ -100,6 +117,11 @@ class TimerComponent extends React.PureComponent<IStateProps & IActionProps> {
         >
           Pause
         </NonShrinkButton>
+
+        <KeyboardShortcutsDialog
+          visible={this.state.dialogVisible}
+          hide={this.hideDialog}
+        />
       </Container>
     )
   }
