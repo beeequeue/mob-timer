@@ -13,6 +13,8 @@ import {
   countDownFinished,
 } from '@state/actions/timerActions'
 import { setActiveNext } from '@state/actions/usersActions'
+import { notify } from '../../utils/notifications'
+import timer from '../../assets/timer.svg'
 
 type startTimerEpicType = ActionsObservable<Actions[typeof START_TIMER]>
 type countDownFinishedEpicType = ActionsObservable<
@@ -51,7 +53,15 @@ export const alertEpic = (
     .ofType(COUNT_DOWN_FINISHED)
     .do(() => {
       const state = store.getState().users
-      alert(`Time's up!\nUp next is ${state.list[state.activeUser]}!`)
+
+      notify("Time's up!", {
+        body: 'Adam is up next!',
+        badge: timer,
+        icon: timer,
+        vibrate: [2000, 2000, 2000],
+      })
+
+      alert(`Time's up!\n${state.list[state.activeUser]} is up next!`)
     })
     .ignoreElements()
 

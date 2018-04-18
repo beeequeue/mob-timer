@@ -16,8 +16,11 @@ import 'normalize.css'
 import './index.scss'
 
 import { store, epicMiddleware } from '@state/index'
+import { requestPermission } from './utils/notifications'
 import { App } from './App'
 // import { register as registerSW } from './registerServiceWorker'
+
+requestPermission()
 
 render(
   <Provider store={store}>
