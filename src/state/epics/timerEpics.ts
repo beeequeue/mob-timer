@@ -55,7 +55,7 @@ export const alertEpic = (
       const state = store.getState().users
 
       notify("Time's up!", {
-        body: 'Adam is up next!',
+        body: `${state.list[state.activeUser]} is up next!`,
         badge: timer,
         icon: timer,
         vibrate: [2000, 2000, 2000],
