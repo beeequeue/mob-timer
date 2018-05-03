@@ -9,6 +9,7 @@ interface INotificationOptions {
   lang?: string
   tag?: string
   vibrate?: number[]
+  onClose?: (e: Event) => any
 }
 
 export function requestPermission() {
@@ -18,11 +19,19 @@ export function requestPermission() {
 }
 
 export function notify(title: string, options?: INotificationOptions) {
-  if (!('Notification' in window)) return
-
-  if ((Notification as any).permission !== 'granted') return
-
   const notification = new Notification(title, options)
 
-  setTimeout(notification.close, 15 * 1000)
+  notification.onclick = e => {
+    notification.close()
+  }
+
+  notification.onclose = e => {
+    if (!options || typeof options.onClose !== 'function') return
+
+    options.onClose(e)
+  }
+
+  setTimeout(() => notification.close(), 120 * 1000)
+
+  return notification
 }

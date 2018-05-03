@@ -11,6 +11,7 @@ import {
   stopTimer,
   countDownOneSecond,
   countDownFinished,
+  addNotification,
 } from '@state/actions/timerActions'
 import { setActiveNext } from '@state/actions/usersActions'
 import { notify } from '../../utils/notifications'
@@ -51,19 +52,19 @@ export const alertEpic = (
 ) =>
   action$
     .ofType(COUNT_DOWN_FINISHED)
-    .do(() => {
+    .flatMap((): any => {
       const state = store.getState().users
 
-      notify("Time's up!", {
-        body: `${state.list[state.activeUser]} is up next!`,
-        badge: timer,
-        icon: timer,
-        vibrate: [2000, 2000, 2000],
-      })
-
-      alert(`Time's up!\n${state.list[state.activeUser]} is up next!`)
+      return [
+        notify("Time's up!", {
+          body: `${state.list[state.activeUser]} is up next!`,
+          badge: timer,
+          icon: timer,
+          vibrate: [2000, 2000, 2000],
+        }),
+      ]
     })
-    .ignoreElements()
+    .mergeMap(n => [addNotification(n as any)])
 
 export const timerEpics = combineEpics(
   startTimerEpic,

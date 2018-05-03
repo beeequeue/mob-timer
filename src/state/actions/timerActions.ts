@@ -6,6 +6,7 @@ export const START_TIMER = 'START_TIMER'
 export const STOP_TIMER = 'STOP_TIMER'
 export const COUNT_DOWN_ONE_SECOND = 'COUNT_DOWN_ONE_SECOND'
 export const COUNT_DOWN_FINISHED = 'COUNT_DOWN_FINISHED'
+export const ADD_NOTIFICATION = 'ADD_NOTIFICATION'
 
 export type Actions = {
   readonly SET_TIME: {
@@ -23,6 +24,10 @@ export type Actions = {
   }
   readonly COUNT_DOWN_FINISHED: {
     type: typeof COUNT_DOWN_FINISHED
+  }
+  readonly ADD_NOTIFICATION: {
+    type: typeof ADD_NOTIFICATION
+    payload: Notification
   }
 }
 
@@ -47,4 +52,11 @@ export const countDownOneSecond = (): Actions[typeof COUNT_DOWN_ONE_SECOND] => (
 
 export const countDownFinished = (): Actions[typeof COUNT_DOWN_FINISHED] => ({
   type: COUNT_DOWN_FINISHED,
+})
+
+export const addNotification = (
+  notification: Notification
+): Actions[typeof ADD_NOTIFICATION] => ({
+  type: ADD_NOTIFICATION,
+  payload: notification,
 })

@@ -5,6 +5,7 @@ import {
   COUNT_DOWN_ONE_SECOND,
   START_TIMER,
   STOP_TIMER,
+  ADD_NOTIFICATION,
 } from '@state/actions/timerActions'
 import { Time } from '../../time'
 
@@ -12,12 +13,14 @@ export type IStateTimer = {
   readonly counting: boolean
   readonly timeLeft: Time
   readonly duration: Time
+  readonly notifications: ReadonlyArray<Notification>
 }
 
 const initialState: IStateTimer = {
   counting: false,
   timeLeft: new Time(),
   duration: new Time(),
+  notifications: [],
 }
 
 const cachedSettings = JSON.parse(
@@ -37,7 +40,7 @@ if (cachedSettings) {
 }
 
 export const timerReducers = (
-  state = Object.assign({}, initialState, cachedSettings),
+  state: IStateTimer = Object.assign({}, initialState, cachedSettings),
   action: RootAction
 ) => {
   switch (action.type) {
@@ -50,10 +53,13 @@ export const timerReducers = (
       })
 
     case START_TIMER:
+      state.notifications.forEach(notification => notification.close())
+
       return Object.assign({}, state, {
         timeLeft:
           state.timeLeft.toSeconds() !== 0 ? state.timeLeft : state.duration,
         counting: true,
+        notifications: [],
       })
 
     case STOP_TIMER:
@@ -64,6 +70,11 @@ export const timerReducers = (
     case COUNT_DOWN_ONE_SECOND:
       return Object.assign({}, state, {
         timeLeft: state.timeLeft.reduceByOneSecond(),
+      })
+
+    case ADD_NOTIFICATION:
+      return Object.assign({}, state, {
+        notifications: [action.payload, ...state.notifications],
       })
 
     default:
