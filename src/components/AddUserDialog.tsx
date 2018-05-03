@@ -20,7 +20,7 @@ export class AddUserDialog extends React.PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props)
 
-    this.onConfirm = this.onConfirm.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   public state = {
@@ -29,8 +29,7 @@ export class AddUserDialog extends React.PureComponent<IProps, IState> {
     names: JSON.parse(localStorage.getItem('names') || '[]'),
   }
 
-  @keydown('enter')
-  private onConfirm() {
+  private submit = () => {
     const name = this.state.value
 
     if (name.trim().length < 3) {
@@ -46,11 +45,20 @@ export class AddUserDialog extends React.PureComponent<IProps, IState> {
       names.splice(names.indexOf(name))
     }
 
-    this.setState({ names: [name, ...names], error: false })
+    this.setState({
+      value: '',
+      names: [name, ...names],
+      error: false,
+    })
+  }
+
+  @keydown('enter')
+  private onSubmit() {
+    this.submit()
   }
 
   private onInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.keyCode === 13) return this.onConfirm()
+    if (e.keyCode === 13) return this.submit()
   }
 
   private onFieldChange = (value: string) => {
@@ -63,7 +71,7 @@ export class AddUserDialog extends React.PureComponent<IProps, IState> {
 
   private actions = [
     { children: 'Cancel', onClick: this.props.hide },
-    <Button key="confirm" flat primary onClick={this.onConfirm}>
+    <Button key="confirm" flat primary onClick={this.submit}>
       Add
     </Button>,
   ]
