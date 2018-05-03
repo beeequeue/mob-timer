@@ -54,10 +54,11 @@ export const alertEpic = (
     .ofType(COUNT_DOWN_FINISHED)
     .flatMap((): any => {
       const state = store.getState().users
+      const nextUser = state.list[state.activeUser]
 
       return [
         notify("Time's up!", {
-          body: `${state.list[state.activeUser]} is up next!`,
+          body: nextUser && `${nextUser} is up next!`,
           badge: timer,
           icon: timer,
           vibrate: [2000, 2000, 2000],
