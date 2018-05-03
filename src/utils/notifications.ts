@@ -13,6 +13,8 @@ interface INotificationOptions {
 
 export function requestPermission() {
   Notification.requestPermission()
+    .then()
+    .catch()
 }
 
 export function notify(title: string, options?: INotificationOptions) {
