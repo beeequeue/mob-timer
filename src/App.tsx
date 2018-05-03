@@ -1,5 +1,7 @@
 import * as React from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { DragDropContext } from 'react-dnd'
 import keydown from 'react-keydown/es'
 import styled from 'styled-components'
 import { Divider } from 'react-md/lib/Dividers'
@@ -8,6 +10,7 @@ import { startTimer, stopTimer, setTime } from '@state/actions/timerActions'
 import { TimerContainer } from './containers/Timer'
 import { UserContainer } from './containers/Users'
 import { GitHubLink } from './components/GitHubLink'
+import { multiBackend } from './utils/dragDropContext'
 import { Time } from './time'
 import { IState } from './state'
 
@@ -77,4 +80,7 @@ export class AppComponent extends React.Component<
   }
 }
 
-export const App = connect(mapState, mapActions)(AppComponent)
+export const App = compose(
+  connect(mapState, mapActions),
+  DragDropContext(multiBackend)
+)(AppComponent)

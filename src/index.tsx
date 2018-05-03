@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { DragDropContextProvider as DnDCProvider } from 'react-dnd'
-import * as HTML5Backend from 'react-dnd-html5-backend'
+
 import 'rxjs/add/operator/do'
 import 'rxjs/add/operator/filter'
 import 'rxjs/add/operator/mapTo'
@@ -24,11 +23,9 @@ requestPermission()
 
 render(
   <Provider store={store}>
-    <DnDCProvider backend={HTML5Backend}>
-      <React.Fragment>
-        <App />
-      </React.Fragment>
-    </DnDCProvider>
+    <React.Fragment>
+      <App />
+    </React.Fragment>
   </Provider>,
   document.getElementById('root') as HTMLElement
 )
@@ -39,11 +36,9 @@ if ((module as any).hot) {
 
     render(
       <Provider store={store}>
-        <DnDCProvider backend={HTML5Backend}>
-          <React.Fragment>
-            <NextApp />
-          </React.Fragment>
-        </DnDCProvider>
+        <React.Fragment>
+          <NextApp />
+        </React.Fragment>
       </Provider>,
       document.getElementById('root')
     )
