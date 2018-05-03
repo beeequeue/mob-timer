@@ -26,7 +26,7 @@ const Container = styled.div`
     left: 0;
     opacity: ${(p: IContainerProps) => (p.hidden ? 1 : 0)};
     pointer-events: ${(p: IContainerProps) => (p.hidden ? 'all' : 'none')};
-    transition: opacity: 0.25s;
+    transition: opacity 0.25s;
   }
 
   @media only screen and (min-width: 1025px) {
