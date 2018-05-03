@@ -4,12 +4,11 @@ import { connect } from 'react-redux'
 import { DragDropContext } from 'react-dnd'
 import keydown from 'react-keydown/es'
 import styled from 'styled-components'
-import { Divider } from 'react-md/lib/Dividers'
 
 import { startTimer, stopTimer, setTime } from '@state/actions/timerActions'
 import { TimerContainer } from './containers/Timer'
 import { UserContainer } from './containers/Users'
-import { GitHubLink } from './components/GitHubLink'
+// import { GitHubLink } from './components/GitHubLink'
 import { multiBackend } from './utils/dragDropContext'
 import { Time } from './time'
 import { IState } from './state'
@@ -70,11 +69,9 @@ export class AppComponent extends React.Component<
       <Container>
         <TimerContainer />
 
-        <Divider />
-
         <UserContainer />
 
-        <GitHubLink />
+        {/* <GitHubLink /> */}
       </Container>
     )
   }

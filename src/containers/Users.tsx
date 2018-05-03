@@ -7,12 +7,14 @@ import {
   addUser,
   removeUser,
   setActive,
+  toggleHideUserList,
 } from '@state/actions/usersActions'
 import { UserList } from '../components/UserList'
 
 interface IStateProps {
   readonly users: ReadonlyArray<string>
   readonly activeUser: number
+  readonly hideUserList: boolean
 }
 
 interface IActionProps {
@@ -20,14 +22,22 @@ interface IActionProps {
   addUser: typeof addUser
   removeUser: typeof removeUser
   setActive: typeof setActive
+  toggleHideUserList: typeof toggleHideUserList
 }
 
 const mapState = ({ users }: IState): IStateProps => ({
   users: users.list,
   activeUser: users.activeUser,
+  hideUserList: users.hideUserList,
 })
 
-const mapActions = { setOrder, addUser, removeUser, setActive }
+const mapActions: IActionProps = {
+  setOrder,
+  addUser,
+  removeUser,
+  setActive,
+  toggleHideUserList,
+}
 
 class UserComponent extends React.PureComponent<IStateProps & IActionProps> {
   private moveUser = (dragIndex: number, hoverIndex: number) => {
@@ -40,16 +50,16 @@ class UserComponent extends React.PureComponent<IStateProps & IActionProps> {
 
   public render() {
     return (
-      <React.Fragment>
-        <UserList
-          users={this.props.users}
-          activeUser={this.props.activeUser}
-          moveUser={this.moveUser}
-          addUser={this.props.addUser}
-          removeUser={this.props.removeUser}
-          setActive={this.props.setActive}
-        />
-      </React.Fragment>
+      <UserList
+        users={this.props.users}
+        activeUser={this.props.activeUser}
+        hideUserList={this.props.hideUserList}
+        moveUser={this.moveUser}
+        addUser={this.props.addUser}
+        removeUser={this.props.removeUser}
+        setActive={this.props.setActive}
+        toggleHideUserList={this.props.toggleHideUserList}
+      />
     )
   }
 }

@@ -6,16 +6,19 @@ import {
   REMOVE_USER,
   ADD_USER,
   SET_ACTIVE,
+  TOGGLE_HIDE_USER_LIST,
 } from '@state/actions/usersActions'
 
 export type IStateUsers = {
   readonly list: ReadonlyArray<string>
   readonly activeUser: number
+  readonly hideUserList: boolean
 }
 
 const initialState: IStateUsers = {
   list: [],
   activeUser: 0,
+  hideUserList: true,
 }
 
 const cachedSettings = JSON.parse(
@@ -23,7 +26,7 @@ const cachedSettings = JSON.parse(
 ).users
 
 export const usersReducers = (
-  state = Object.assign({}, initialState, cachedSettings),
+  state: IStateUsers = Object.assign({}, initialState, cachedSettings),
   action: RootAction
 ) => {
   switch (action.type) {
@@ -51,6 +54,11 @@ export const usersReducers = (
     case SET_ACTIVE:
       return Object.assign({}, state, {
         activeUser: action.payload,
+      })
+
+    case TOGGLE_HIDE_USER_LIST:
+      return Object.assign({}, state, {
+        hideUserList: !state.hideUserList,
       })
 
     default:

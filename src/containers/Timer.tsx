@@ -13,6 +13,8 @@ import { IState as IRootState } from '@state/index'
 import { Time } from '../time'
 import { Countdown } from '../components/Countdown'
 import { KeyboardShortcutsDialog } from '../components/KeyboardShortcutsDialog'
+import { HideOnBigDevices } from '../components/HideOnBigDevices'
+import { toggleHideUserList } from '@state/actions/usersActions'
 
 const Container = styled.div`
   display: flex;
@@ -39,6 +41,7 @@ interface IDispatchProps {
   startTimer: typeof startTimer
   stopTimer: typeof stopTimer
   countDownOneSecond: typeof countDownOneSecond
+  toggleHideUserList: typeof toggleHideUserList
 }
 
 const mapState = ({ timer }: IRootState): IStateProps => ({
@@ -47,7 +50,13 @@ const mapState = ({ timer }: IRootState): IStateProps => ({
   counting: timer.counting,
 })
 
-const mapActions = { setTime, startTimer, stopTimer, countDownOneSecond }
+const mapActions: IDispatchProps = {
+  setTime,
+  startTimer,
+  stopTimer,
+  countDownOneSecond,
+  toggleHideUserList,
+}
 
 interface IState {
   dialogVisible: boolean
@@ -87,9 +96,17 @@ class TimerComponent extends React.PureComponent<
           onChangeTime={this.props.setTime}
         />
 
-        <NonShrinkButton icon onClick={this.showDialog}>
-          keyboard
-        </NonShrinkButton>
+        <div>
+          <NonShrinkButton icon onClick={this.showDialog}>
+            keyboard
+          </NonShrinkButton>
+
+          <HideOnBigDevices>
+            <NonShrinkButton icon onClick={this.props.toggleHideUserList}>
+              people
+            </NonShrinkButton>
+          </HideOnBigDevices>
+        </div>
 
         <NonShrinkButton
           flat
