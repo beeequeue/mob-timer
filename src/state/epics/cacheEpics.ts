@@ -1,13 +1,10 @@
-import { combineEpics, Epic, ofType } from 'redux-observable'
-import { ignoreElements, tap } from 'rxjs/operators'
+import { combineEpics, Epic } from 'redux-observable'
+import { filter, ignoreElements, tap } from 'rxjs/operators'
+import { isActionOf } from 'typesafe-actions'
+
 import { IRootActions, IRootState } from '@state/index'
-import {
-  ADD_USER,
-  REMOVE_USER,
-  SET_ACTIVE,
-  SET_ORDER,
-  SET_TIME,
-} from '@state/actions/constants'
+import { setTime } from '@state/actions/timerActions'
+import { addUser, removeUser, setActive, setOrder } from '@state/actions/usersActions'
 
 type EpicType = Epic<IRootActions, IRootActions, IRootState>
 const SAVE_TIMEOUT = 1000
@@ -15,7 +12,7 @@ let saveTimer: number | null
 
 export const cacheSaveSettingsEpic: EpicType = (action$, state$) =>
   action$.pipe(
-    ofType(SET_TIME, ADD_USER, REMOVE_USER, SET_ORDER, SET_ACTIVE), // More?
+    filter(isActionOf([setTime, addUser, removeUser, setOrder, setActive])), // More?
     tap(() => {
       if (saveTimer) {
         clearTimeout(saveTimer)
@@ -36,7 +33,7 @@ export const cacheSaveSettingsEpic: EpicType = (action$, state$) =>
 
 export const cacheSaveNameEpic: EpicType = action$ =>
   action$.pipe(
-    ofType(ADD_USER),
+    filter(isActionOf(addUser)),
     tap((action /*: ActionType<typeof addUser>*/) => {
       const name = action.payload
       const names: string[] = JSON.parse(localStorage.getItem('names') || '[]')

@@ -1,6 +1,7 @@
-import { combineEpics, Epic, ofType } from 'redux-observable'
+import { combineEpics, Epic } from 'redux-observable'
 import { interval } from 'rxjs'
 import { filter, flatMap, mapTo, mergeMap, switchMap, takeUntil } from 'rxjs/operators'
+import { isOfType } from 'typesafe-actions'
 
 import { IRootActions, IRootState } from '@state/index'
 import * as timerActions from '@state/actions/timerActions'
@@ -15,10 +16,10 @@ const { stopTimer, countDownFinished, countDownOneSecond } = timerActions
 
 export const startTimerEpic: EpicType = action$ =>
   action$.pipe(
-    ofType(START_TIMER),
+    filter(isOfType(START_TIMER)),
     switchMap(() =>
       interval(1000).pipe(
-        takeUntil(action$.ofType(STOP_TIMER)),
+        takeUntil(action$.pipe(filter(isOfType(STOP_TIMER)))),
         mapTo(countDownOneSecond())
       )
     )
@@ -26,7 +27,7 @@ export const startTimerEpic: EpicType = action$ =>
 
 export const countDownFinishedEpic: EpicType = (action$, state$) =>
   action$.pipe(
-    ofType(COUNT_DOWN_ONE_SECOND),
+    filter(isOfType(COUNT_DOWN_ONE_SECOND)),
     filter(() => {
       const { timeLeft } = state$.value.timer
 
@@ -37,7 +38,7 @@ export const countDownFinishedEpic: EpicType = (action$, state$) =>
 
 export const alertEpic: EpicType = (action$, state$) =>
   action$.pipe(
-    ofType(COUNT_DOWN_FINISHED),
+    filter(isOfType(COUNT_DOWN_FINISHED)),
     flatMap(() => {
       const state = state$.value.users
       const nextUser = state.list[state.activeUser]

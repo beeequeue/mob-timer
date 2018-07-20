@@ -30,7 +30,7 @@ const rootReducer = combineReducers({
   users: usersReducers,
 })
 
-const epicMiddleware = createEpicMiddleware()
+export const epicMiddleware = createEpicMiddleware()
 epicMiddleware.run(rootEpic)
 
 export const store = createStore(
