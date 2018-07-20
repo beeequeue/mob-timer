@@ -11,7 +11,7 @@ import { UserContainer } from './containers/Users'
 // import { GitHubLink } from './components/GitHubLink'
 import { multiBackend } from './utils/dragDropContext'
 import { Time } from './time'
-import { IState } from './state'
+import { IRootState } from './state'
 
 const Container = styled.div`
   font-family: 'Roboto', sans-serif;
@@ -36,7 +36,7 @@ interface IDispatchProps {
   setTime: typeof setTime
 }
 
-const mapState = ({ timer }: IState): IStateProps => ({
+const mapState = ({ timer }: IRootState): IStateProps => ({
   counting: timer.counting,
   duration: timer.duration,
 })

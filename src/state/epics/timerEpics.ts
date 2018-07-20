@@ -1,19 +1,16 @@
 import { combineEpics, Epic, ofType } from 'redux-observable'
 import { interval } from 'rxjs'
 import { filter, flatMap, mapTo, mergeMap, switchMap, takeUntil } from 'rxjs/operators'
-import { ActionType } from 'typesafe-actions'
 
-import { IState } from '@state/index'
+import { IRootActions, IRootState } from '@state/index'
 import * as timerActions from '@state/actions/timerActions'
 import { setActiveNext } from '@state/actions/usersActions'
 import { COUNT_DOWN_FINISHED, COUNT_DOWN_ONE_SECOND, START_TIMER, STOP_TIMER } from '@state/actions/constants'
 
 import { notify } from '../../utils/notifications'
 import timer from '../../assets/timer.svg'
-import { addNotification } from '@state/actions/timerActions'
 
-type Actions = ActionType<typeof timerActions>
-type EpicType = Epic<Actions, any, IState>
+type EpicType = Epic<IRootActions, IRootActions, IRootState>
 const { stopTimer, countDownFinished, countDownOneSecond } = timerActions
 
 export const startTimerEpic: EpicType = action$ =>
@@ -54,7 +51,7 @@ export const alertEpic: EpicType = (action$, state$) =>
         }),
       ]
     }),
-    mergeMap(n => [addNotification(n)])
+    mergeMap(n => [timerActions.addNotification(n)])
   )
 
 export const timerEpics = combineEpics(

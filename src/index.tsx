@@ -2,15 +2,6 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 
-import 'rxjs/add/operator/do'
-import 'rxjs/add/operator/filter'
-import 'rxjs/add/operator/mapTo'
-import 'rxjs/add/operator/mergeMap'
-import 'rxjs/add/operator/ignoreElements'
-import 'rxjs/add/operator/takeUntil'
-import 'rxjs/add/operator/switchMap'
-import 'rxjs/add/observable/interval'
-
 import 'normalize.css'
 import './index.scss'
 
@@ -47,7 +38,9 @@ if ((module as any).hot) {
     const { reducers: nextReducers, epics: nextEpics } = require('@state/index')
 
     store.replaceReducer(nextReducers)
-    epicMiddleware.replaceEpic(nextEpics)
+
+    store.dispatch({ type: 'END' })
+    epicMiddleware.run(nextEpics)
   })
 }
 

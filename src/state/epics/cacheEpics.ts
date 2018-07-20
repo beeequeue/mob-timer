@@ -1,9 +1,6 @@
 import { combineEpics, Epic, ofType } from 'redux-observable'
 import { ignoreElements, tap } from 'rxjs/operators'
-import { ActionType } from 'typesafe-actions'
-import { IState } from '@state/index'
-import * as timerActions from '@state/actions/timerActions'
-import * as userActions from '@state/actions/usersActions'
+import { IRootActions, IRootState } from '@state/index'
 import {
   ADD_USER,
   REMOVE_USER,
@@ -12,8 +9,7 @@ import {
   SET_TIME,
 } from '@state/actions/constants'
 
-type Actions = ActionType<typeof timerActions & typeof userActions>
-type EpicType = Epic<Actions, Actions, IState>
+type EpicType = Epic<IRootActions, IRootActions, IRootState>
 const SAVE_TIMEOUT = 1000
 let saveTimer: number | null
 
@@ -41,7 +37,7 @@ export const cacheSaveSettingsEpic: EpicType = (action$, state$) =>
 export const cacheSaveNameEpic: EpicType = action$ =>
   action$.pipe(
     ofType(ADD_USER),
-    tap(action => {
+    tap((action /*: ActionType<typeof addUser>*/) => {
       const name = action.payload
       const names: string[] = JSON.parse(localStorage.getItem('names') || '[]')
 

@@ -1,30 +1,39 @@
-// tslint:disable:interface-over-type-literal
-import { combineEpics, createEpicMiddleware } from 'redux-observable'
-import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
+import {
+  combineEpics,
+  createEpicMiddleware,
+  Epic,
+  ofType,
+} from 'redux-observable'
+import { takeUntil } from 'rxjs/operators'
+import { ActionType, StateType } from 'typesafe-actions'
 
-import { timerReducers, IStateTimer } from '@state/reducers/timerReducers'
-import { usersReducers, IStateUsers } from '@state/reducers/usersReducers'
+import { timerReducers } from '@state/reducers/timerReducers'
+import { usersReducers } from '@state/reducers/usersReducers'
 import { timerEpics } from '@state/epics/timerEpics'
 import { cacheEpics } from '@state/epics/cacheEpics'
+import * as timerActions from '@state/actions/timerActions'
+import * as usersActions from '@state/actions/usersActions'
 
-const composeMiddleware =
-  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const composeMiddleware = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-export type IState = {
-  readonly timer: IStateTimer
-  readonly users: IStateUsers
-}
+export type IRootState = StateType<typeof rootReducer>
+export type IRootActions = ActionType<typeof timerActions & typeof usersActions>
 
-export const rootEpic = combineEpics(timerEpics, cacheEpics)
+const rootEpic: Epic = (action$, $state, dependencies) =>
+  combineEpics(timerEpics, cacheEpics)(action$, $state, dependencies).pipe(
+    takeUntil(action$.pipe(ofType('END')))
+  )
 
-export const rootReducers = combineReducers({
+const rootReducer = combineReducers({
   timer: timerReducers,
   users: usersReducers,
 })
 
-export const epicMiddleware = createEpicMiddleware(rootEpic)
+const epicMiddleware = createEpicMiddleware()
+epicMiddleware.run(rootEpic)
 
 export const store = createStore(
-  rootReducers,
+  rootReducer,
   composeMiddleware(applyMiddleware(epicMiddleware))
 )
