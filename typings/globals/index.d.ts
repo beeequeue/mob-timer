@@ -10,3 +10,13 @@ declare module 'react-keydown/es' {
   export default keydown
   export { keydownScoped }
 }
+
+declare module 'react-dnd-multi-backend' {
+  const content: any
+  export default content
+}
+
+declare module 'react-dnd-multi-backend/lib/HTML5toTouch' {
+  const content: any
+  export default content
+}
