@@ -1,41 +1,31 @@
-import { MiddlewareAPI } from 'redux'
-import { ActionsObservable, combineEpics } from 'redux-observable'
+import { combineEpics, Epic, ofType } from 'redux-observable'
+import { ignoreElements, tap } from 'rxjs/operators'
+import { ActionType } from 'typesafe-actions'
 import { IState } from '@state/index'
-import { Actions as timerActions, SET_TIME } from '@state/actions/timerActions'
+import * as timerActions from '@state/actions/timerActions'
+import * as userActions from '@state/actions/usersActions'
 import {
-  Actions as userActions,
   ADD_USER,
   REMOVE_USER,
-  SET_ORDER,
   SET_ACTIVE,
-} from '@state/actions/usersActions'
+  SET_ORDER,
+  SET_TIME,
+} from '@state/actions/constants'
 
-type cacheSaveSettingsEpicType = ActionsObservable<
-  | timerActions[typeof SET_TIME]
-  | userActions[
-      | typeof ADD_USER
-      | typeof REMOVE_USER
-      | typeof SET_ORDER
-      | typeof SET_ACTIVE]
->
-
-type cacheSaveNameEpicType = ActionsObservable<userActions[typeof ADD_USER]>
-
-const SAVE_TIMEOUT = 500
+type Actions = ActionType<typeof timerActions & typeof userActions>
+type EpicType = Epic<Actions, Actions, IState>
+const SAVE_TIMEOUT = 1000
 let saveTimer: number | null
 
-export const cacheSaveSettingsEpic = (
-  action$: cacheSaveSettingsEpicType,
-  store: MiddlewareAPI<IState>
-) =>
-  action$
-    .ofType(SET_TIME, ADD_USER, REMOVE_USER, SET_ORDER, SET_ACTIVE) // More?
-    .do(() => {
+export const cacheSaveSettingsEpic: EpicType = (action$, state$) =>
+  action$.pipe(
+    ofType(SET_TIME, ADD_USER, REMOVE_USER, SET_ORDER, SET_ACTIVE), // More?
+    tap(() => {
       if (saveTimer) {
         clearTimeout(saveTimer)
       }
 
-      const stateToSave: any = JSON.parse(JSON.stringify(store.getState()))
+      const stateToSave: any = JSON.parse(JSON.stringify(state$.value))
       stateToSave.timer.timeLeft = stateToSave.timer.duration
       stateToSave.timer.timerLoop = null
 
@@ -44,16 +34,14 @@ export const cacheSaveSettingsEpic = (
 
         saveTimer = null
       }, SAVE_TIMEOUT)
-    })
-    .ignoreElements()
+    }),
+    ignoreElements()
+  )
 
-export const cacheSaveNameEpic = (
-  action$: cacheSaveNameEpicType,
-  store: MiddlewareAPI<IState>
-) =>
-  action$
-    .ofType(ADD_USER)
-    .do(action => {
+export const cacheSaveNameEpic: EpicType = action$ =>
+  action$.pipe(
+    ofType(ADD_USER),
+    tap(action => {
       const name = action.payload
       const names: string[] = JSON.parse(localStorage.getItem('names') || '[]')
 
@@ -62,7 +50,8 @@ export const cacheSaveNameEpic = (
       }
 
       localStorage.setItem('names', JSON.stringify([name, ...names]))
-    })
-    .ignoreElements()
+    }),
+    ignoreElements()
+  )
 
 export const cacheEpics = combineEpics(cacheSaveSettingsEpic, cacheSaveNameEpic)
