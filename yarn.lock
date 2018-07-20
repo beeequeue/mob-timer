@@ -600,18 +600,6 @@
   version "9.6.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.4.tgz#0ef7b4cfc3499881c81e0ea1ce61a23f6f4f5b42"
 
-"@types/react-dnd-html5-backend@^2.1.9":
-  version "2.1.9"
-  resolved "https://registry.yarnpkg.com/@types/react-dnd-html5-backend/-/react-dnd-html5-backend-2.1.9.tgz#dfc9efe2a68bd12407815a2d61ddfd18bb8686fb"
-  dependencies:
-    "@types/react-dnd" "*"
-
-"@types/react-dnd@*", "@types/react-dnd@^2.0.36":
-  version "2.0.36"
-  resolved "https://registry.yarnpkg.com/@types/react-dnd/-/react-dnd-2.0.36.tgz#67e08a3608f112a3af27201d1fb6f79334d43214"
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-dom@^16.0.6":
   version "16.0.6"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.0.6.tgz#f1a65a4e7be8ed5d123f8b3b9eacc913e35a1a3c"
