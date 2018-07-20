@@ -4,7 +4,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "typeRoots": ["node_modules/@types", "typings"],
-    "types": ["globals"],
+    "types": ["node", "globals"],
     "lib": ["dom", "es5", "es6", "es7", "es2017"],
     "sourceMap": true,
     "rootDir": "src",
