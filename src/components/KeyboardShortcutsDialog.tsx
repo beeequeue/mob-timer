@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader'
 import * as React from 'react'
 import { DialogContainer } from 'react-md/lib/Dialogs'
 import { FontIcon } from 'react-md/lib/FontIcons'
@@ -30,7 +31,7 @@ interface IProps {
   readonly hide: () => void
 }
 
-export class KeyboardShortcutsDialog extends React.PureComponent<IProps> {
+class KeyboardShortcutsDialogComponent extends React.PureComponent<IProps> {
   private actions = [{ children: 'Back', onClick: this.props.hide }]
 
   public render() {
@@ -53,3 +54,5 @@ export class KeyboardShortcutsDialog extends React.PureComponent<IProps> {
     )
   }
 }
+
+export const KeyboardShortcutsDialog = hot(module)(KeyboardShortcutsDialogComponent)
