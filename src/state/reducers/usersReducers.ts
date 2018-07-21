@@ -1,6 +1,7 @@
 import { Reducer } from 'redux'
 
 import { IRootActions } from '@state/index'
+import { ICachedState } from '@state/epics/cacheEpics'
 import {
   ADD_USER,
   REMOVE_USER,
@@ -11,9 +12,9 @@ import {
 } from '@state/actions/constants'
 
 export interface IStateUsers {
-  readonly list: ReadonlyArray<string>
-  readonly activeUser: number
-  readonly hideUserList: boolean
+  list: ReadonlyArray<string>
+  activeUser: number
+  hideUserList: boolean
 }
 
 const initialState: IStateUsers = {
@@ -22,12 +23,17 @@ const initialState: IStateUsers = {
   hideUserList: true,
 }
 
-const cachedSettings = JSON.parse(
+const { users: cachedUsers } = JSON.parse(
   localStorage.getItem('cache') || '{ "users": null }'
-).users
+) as ICachedState
+
+if (cachedUsers) {
+  initialState.list = cachedUsers.list
+  initialState.activeUser = cachedUsers.activeUser
+}
 
 export const usersReducers: Reducer<IStateUsers, IRootActions> = (
-  state = { ...initialState, ...cachedSettings },
+  state = { ...initialState },
   action
 ) => {
   switch (action.type) {

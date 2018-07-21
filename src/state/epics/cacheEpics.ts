@@ -4,11 +4,33 @@ import { isActionOf } from 'typesafe-actions'
 
 import { IRootActions, IRootState } from '@state/index'
 import { setTime } from '@state/actions/timerActions'
-import { addUser, removeUser, setActive, setOrder } from '@state/actions/usersActions'
+import {
+  addUser,
+  removeUser,
+  setActive,
+  setOrder,
+} from '@state/actions/usersActions'
 
 type EpicType = Epic<IRootActions, IRootActions, IRootState>
 const SAVE_TIMEOUT = 1000
 let saveTimer: number | null
+
+export interface ICachedState {
+  timer: {
+    timeLeft: {
+      minutes: number
+      seconds: number
+    }
+    duration: {
+      minutes: number
+      seconds: number
+    }
+  }
+  users: {
+    list: string[]
+    activeUser: number
+  }
+}
 
 export const cacheSaveSettingsEpic: EpicType = (action$, state$) =>
   action$.pipe(
@@ -18,9 +40,19 @@ export const cacheSaveSettingsEpic: EpicType = (action$, state$) =>
         clearTimeout(saveTimer)
       }
 
-      const stateToSave: any = JSON.parse(JSON.stringify(state$.value))
-      stateToSave.timer.timeLeft = stateToSave.timer.duration
-      stateToSave.timer.timerLoop = null
+      const state = state$.value
+      const stateToSave: ICachedState = {
+        timer: {
+          // Set time left to duration so when people refresh page
+          // the timer has reset
+          timeLeft: state.timer.duration,
+          duration: state.timer.duration,
+        },
+        users: {
+          list: state.users.list as string[],
+          activeUser: state.users.activeUser,
+        },
+      }
 
       saveTimer = window.setTimeout(() => {
         localStorage.setItem('cache', JSON.stringify(stateToSave))
