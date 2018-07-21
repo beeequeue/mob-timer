@@ -32,7 +32,7 @@ const target: DropTargetSpec<IProps> = {
   hover(props, monitor, component) {
     if (!monitor || !component) return
 
-    const dragIndex = (monitor.getItem() as any).index
+    const dragIndex = monitor.getItem().index
     const hoverIndex = props.index
 
     // Don't replace items with themselves
@@ -73,7 +73,7 @@ const target: DropTargetSpec<IProps> = {
 
     // Time to actually perform the action
     props.moveUser(dragIndex, hoverIndex)
-    ;(monitor.getItem() as any).index = hoverIndex
+    monitor.getItem().index = hoverIndex
   },
 }
 

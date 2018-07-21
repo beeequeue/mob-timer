@@ -41,9 +41,7 @@ const mapActions = { startTimer, stopTimer, setTime }
 type DispatchProps = typeof mapActions
 
 @DragDropContext(multiBackend)
-export class AppComponent extends React.Component<
-  IStateProps & DispatchProps
-> {
+export class AppComponent extends React.Component<IStateProps & DispatchProps> {
   constructor(props: any) {
     super(props)
 
@@ -77,5 +75,8 @@ export class AppComponent extends React.Component<
 
 export const App = compose(
   hot(module),
-  connect(mapState, mapActions),
+  connect(
+    mapState,
+    mapActions
+  )
 )(AppComponent)
