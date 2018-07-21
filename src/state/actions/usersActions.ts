@@ -1,4 +1,4 @@
-import { action } from 'typesafe-actions'
+import { createStandardAction } from 'typesafe-actions'
 import {
   ADD_USER,
   REMOVE_USER,
@@ -8,14 +8,14 @@ import {
   TOGGLE_HIDE_USER_LIST,
 } from '@state/actions/constants'
 
-export const addUser = (name: string) => action(ADD_USER, name)
+export const addUser = createStandardAction(ADD_USER)<string>()
 
-export const removeUser = (name: number) => action(REMOVE_USER, name)
+export const removeUser = createStandardAction(REMOVE_USER)<number>()
 
-export const setOrder = (names: string[]) => action(SET_ORDER, names)
+export const setOrder = createStandardAction(SET_ORDER)<string[]>()
 
-export const setActive = (index: number) => action(SET_ACTIVE, index)
+export const setActive = createStandardAction(SET_ACTIVE)<number>()
 
-export const setActiveNext = () => action(SET_ACTIVE_NEXT)
+export const setActiveNext = createStandardAction(SET_ACTIVE_NEXT)()
 
-export const toggleHideUserList = () => action(TOGGLE_HIDE_USER_LIST)
+export const toggleHideUserList = createStandardAction(TOGGLE_HIDE_USER_LIST)()

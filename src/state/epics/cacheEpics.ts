@@ -34,7 +34,7 @@ export const cacheSaveSettingsEpic: EpicType = (action$, state$) =>
 export const cacheSaveNameEpic: EpicType = action$ =>
   action$.pipe(
     filter(isActionOf(addUser)),
-    tap((action /*: ActionType<typeof addUser>*/) => {
+    tap(action => {
       const name = action.payload
       const names: string[] = JSON.parse(localStorage.getItem('names') || '[]')
 
