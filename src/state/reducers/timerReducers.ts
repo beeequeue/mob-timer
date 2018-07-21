@@ -1,6 +1,7 @@
 import { Reducer } from 'redux'
 
 import { IRootActions } from '@state/index'
+import { ICachedState } from '@state/epics/cacheEpics'
 import {
   COUNT_DOWN_ONE_SECOND,
   SET_TIME,
@@ -12,10 +13,10 @@ import {
 import { Time } from '../../time'
 
 export interface IStateTimer {
-  readonly counting: boolean
-  readonly timeLeft: Time
-  readonly duration: Time
-  readonly notifications: ReadonlyArray<Notification>
+  counting: boolean
+  timeLeft: Time
+  duration: Time
+  notifications: ReadonlyArray<Notification>
 }
 
 const initialState: IStateTimer = {
@@ -25,18 +26,23 @@ const initialState: IStateTimer = {
   notifications: [],
 }
 
-const cachedSettings = JSON.parse(
+const { timer: cachedTimer } = JSON.parse(
   localStorage.getItem('cache') || '{ "timer": null }'
-).timer
+) as ICachedState
 
-if (cachedSettings) {
-  cachedSettings.timeLeft = Time.fromTime(cachedSettings.timeLeft)
-
-  cachedSettings.duration = Time.fromTime(cachedSettings.duration)
+if (cachedTimer) {
+  initialState.timeLeft = new Time(
+    initialState.timeLeft.minutes,
+    initialState.timeLeft.seconds
+  )
+  initialState.duration = new Time(
+    cachedTimer.duration.minutes,
+    cachedTimer.duration.seconds
+  )
 }
 
 export const timerReducers: Reducer<IStateTimer, IRootActions> = (
-  state = { ...initialState, ...cachedSettings },
+  state = { ...initialState },
   action
 ) => {
   switch (action.type) {
@@ -75,12 +81,8 @@ export const timerReducers: Reducer<IStateTimer, IRootActions> = (
     case ADD_NOTIFICATION:
       return {
         ...state,
-        notifications: [
-          action.payload,
-          ...state.notifications,
-        ],
+        notifications: [action.payload, ...state.notifications],
       }
-
 
     default:
       return state
