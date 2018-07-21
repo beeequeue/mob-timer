@@ -32,8 +32,8 @@ const { timer: cachedTimer } = JSON.parse(
 
 if (cachedTimer) {
   initialState.timeLeft = new Time(
-    initialState.timeLeft.minutes,
-    initialState.timeLeft.seconds
+    cachedTimer.timeLeft.minutes,
+    cachedTimer.timeLeft.seconds
   )
   initialState.duration = new Time(
     cachedTimer.duration.minutes,
