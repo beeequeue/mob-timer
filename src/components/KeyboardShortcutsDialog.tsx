@@ -1,7 +1,6 @@
 import { hot } from 'react-hot-loader'
 import * as React from 'react'
 import { DialogContainer } from 'react-md/lib/Dialogs'
-import { FontIcon } from 'react-md/lib/FontIcons'
 import styled from 'styled-components'
 
 const Instruction = styled.div`
@@ -43,8 +42,8 @@ class KeyboardShortcutsDialogComponent extends React.PureComponent<IProps> {
         actions={this.actions}
         onHide={this.props.hide}
       >
-        <Instruction title="Spacebar">
-          <FontIcon>space_bar</FontIcon> Start / pause the timer
+        <Instruction title="P">
+          <Key>P</Key> Start / pause the timer
         </Instruction>
 
         <Instruction title="R">
