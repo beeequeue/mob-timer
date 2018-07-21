@@ -49,7 +49,7 @@ export class AppComponent extends React.Component<IStateProps & DispatchProps> {
     this.resetTimer = this.resetTimer.bind(this)
   }
 
-  @keydown('space')
+  @keydown('p')
   private toggleTimer() {
     this.props.counting ? this.props.stopTimer() : this.props.startTimer()
   }
