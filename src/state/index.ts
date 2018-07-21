@@ -1,11 +1,5 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
-import {
-  combineEpics,
-  createEpicMiddleware,
-  Epic,
-  ofType,
-} from 'redux-observable'
-import { takeUntil } from 'rxjs/operators'
+import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
 import { ActionType, StateType } from 'typesafe-actions'
 
 import { timerReducers } from '@state/reducers/timerReducers'
@@ -20,10 +14,7 @@ const composeMiddleware = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 export type IRootState = StateType<typeof rootReducer>
 export type IRootActions = ActionType<typeof timerActions & typeof usersActions>
 
-const rootEpic: Epic = (action$, $state, dependencies) =>
-  combineEpics(timerEpics, cacheEpics)(action$, $state, dependencies).pipe(
-    takeUntil(action$.pipe(ofType('END')))
-  )
+const rootEpic: Epic = combineEpics(timerEpics, cacheEpics)
 
 const rootReducer = combineReducers({
   timer: timerReducers,
@@ -31,9 +22,10 @@ const rootReducer = combineReducers({
 })
 
 export const epicMiddleware = createEpicMiddleware()
-epicMiddleware.run(rootEpic)
 
 export const store = createStore(
   rootReducer,
   composeMiddleware(applyMiddleware(epicMiddleware))
 )
+
+epicMiddleware.run(rootEpic)
