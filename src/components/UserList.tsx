@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader'
 import * as React from 'react'
 import styled, { StyledComponentClass } from 'styled-components'
 import { List } from 'react-md/lib/Lists'
@@ -69,7 +70,7 @@ interface IState {
   dialogVisible: boolean
 }
 
-export class UserList extends React.PureComponent<IProps, IState> {
+class UserListComponent extends React.PureComponent<IProps, IState> {
   public state = {
     dialogVisible: false,
   }
@@ -136,3 +137,5 @@ export class UserList extends React.PureComponent<IProps, IState> {
     )
   }
 }
+
+export const UserList = hot(module)(UserListComponent)

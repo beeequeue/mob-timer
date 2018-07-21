@@ -1,15 +1,17 @@
-// tslint:disable:interface-over-type-literal
+import { Reducer } from 'redux'
+
+import { IRootActions } from '@state/index'
 import {
-  RootAction,
-  SET_TIME,
   COUNT_DOWN_ONE_SECOND,
+  SET_TIME,
   START_TIMER,
   STOP_TIMER,
   ADD_NOTIFICATION,
-} from '@state/actions/timerActions'
+} from '@state/actions/constants'
+
 import { Time } from '../../time'
 
-export type IStateTimer = {
+export interface IStateTimer {
   readonly counting: boolean
   readonly timeLeft: Time
   readonly duration: Time
@@ -28,54 +30,57 @@ const cachedSettings = JSON.parse(
 ).timer
 
 if (cachedSettings) {
-  cachedSettings.timeLeft = new Time(
-    cachedSettings.timeLeft.minutes,
-    cachedSettings.timeLeft.seconds
-  )
+  cachedSettings.timeLeft = Time.fromTime(cachedSettings.timeLeft)
 
-  cachedSettings.duration = new Time(
-    cachedSettings.duration.minutes,
-    cachedSettings.duration.seconds
-  )
+  cachedSettings.duration = Time.fromTime(cachedSettings.duration)
 }
 
-export const timerReducers = (
-  state: IStateTimer = Object.assign({}, initialState, cachedSettings),
-  action: RootAction
+export const timerReducers: Reducer<IStateTimer, IRootActions> = (
+  state = { ...initialState, ...cachedSettings },
+  action
 ) => {
   switch (action.type) {
     case SET_TIME:
       const time = Time.fromTime(action.payload)
 
-      return Object.assign({}, state, {
+      return {
+        ...state,
         timeLeft: time,
         duration: time,
-      })
+      }
 
     case START_TIMER:
       state.notifications.forEach(notification => notification.close())
 
-      return Object.assign({}, state, {
+      return {
+        ...state,
         timeLeft:
           state.timeLeft.toSeconds() !== 0 ? state.timeLeft : state.duration,
         counting: true,
         notifications: [],
-      })
+      }
 
     case STOP_TIMER:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         counting: false,
-      })
+      }
 
     case COUNT_DOWN_ONE_SECOND:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         timeLeft: state.timeLeft.reduceByOneSecond(),
-      })
+      }
 
     case ADD_NOTIFICATION:
-      return Object.assign({}, state, {
-        notifications: [action.payload, ...state.notifications],
-      })
+      return {
+        ...state,
+        notifications: [
+          action.payload,
+          ...state.notifications,
+        ],
+      }
+
 
     default:
       return state

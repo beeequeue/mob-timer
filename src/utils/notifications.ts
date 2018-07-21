@@ -21,7 +21,7 @@ export function requestPermission() {
 export function notify(title: string, options?: INotificationOptions) {
   const notification = new Notification(title, options)
 
-  notification.onclick = e => {
+  notification.onclick = () => {
     notification.close()
   }
 

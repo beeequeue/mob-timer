@@ -10,3 +10,8 @@ declare module 'react-keydown/es' {
   export default keydown
   export { keydownScoped }
 }
+
+// tslint:disable-next-line
+interface Window {
+  __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: any
+}

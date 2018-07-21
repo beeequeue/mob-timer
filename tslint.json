@@ -2,10 +2,12 @@
   "defaultSeverity": "error",
   "extends": [
     "tslint:recommended",
-    "tslint-react",
     "tslint-config-standard",
     "tslint-config-prettier"
   ],
+  "linterOptions": {
+    "exclude": ["node_modules/**"]
+  },
   "rules": {
     "trailing-comma": [
       true,
@@ -23,8 +25,6 @@
     "ordered-imports": false,
     "arrow-parens": false,
     "no-default-export": true,
-    "no-floating-promises": true,
-    "member-ordering": false,
-    "jsx-boolean-value": false
+    "member-ordering": false
   }
 }

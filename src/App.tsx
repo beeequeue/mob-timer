@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader'
 import * as React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
@@ -6,12 +7,13 @@ import keydown from 'react-keydown/es'
 import styled from 'styled-components'
 
 import { startTimer, stopTimer, setTime } from '@state/actions/timerActions'
+
+import { Time } from './time'
+import { IRootState } from './state'
 import { TimerContainer } from './containers/Timer'
 import { UserContainer } from './containers/Users'
 // import { GitHubLink } from './components/GitHubLink'
 import { multiBackend } from './utils/dragDropContext'
-import { Time } from './time'
-import { IState } from './state'
 
 const Container = styled.div`
   font-family: 'Roboto', sans-serif;
@@ -30,22 +32,16 @@ interface IStateProps {
   duration: Time
 }
 
-interface IDispatchProps {
-  startTimer: typeof startTimer
-  stopTimer: typeof stopTimer
-  setTime: typeof setTime
-}
-
-const mapState = ({ timer }: IState): IStateProps => ({
+const mapState = ({ timer }: IRootState): IStateProps => ({
   counting: timer.counting,
   duration: timer.duration,
 })
 
-const mapActions: IDispatchProps = { startTimer, stopTimer, setTime }
+const mapActions = { startTimer, stopTimer, setTime }
+type DispatchProps = typeof mapActions
 
-export class AppComponent extends React.Component<
-  IStateProps & IDispatchProps
-> {
+@DragDropContext(multiBackend)
+export class AppComponent extends React.Component<IStateProps & DispatchProps> {
   constructor(props: any) {
     super(props)
 
@@ -78,6 +74,9 @@ export class AppComponent extends React.Component<
 }
 
 export const App = compose(
-  connect(mapState, mapActions),
-  DragDropContext(multiBackend)
+  hot(module),
+  connect(
+    mapState,
+    mapActions
+  )
 )(AppComponent)

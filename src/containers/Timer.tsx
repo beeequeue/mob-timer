@@ -9,7 +9,7 @@ import {
   stopTimer,
   countDownOneSecond,
 } from '@state/actions/timerActions'
-import { IState as IRootState } from '@state/index'
+import { IRootState } from '@state/index'
 import { Time } from '../time'
 import { Countdown } from '../components/Countdown'
 import { KeyboardShortcutsDialog } from '../components/KeyboardShortcutsDialog'

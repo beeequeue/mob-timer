@@ -1,62 +1,21 @@
-// tslint:disable:interface-over-type-literal
-export const ADD_USER = 'ADD_USER'
-export const REMOVE_USER = 'REMOVE_USER'
-export const SET_ORDER = 'SET_ORDER'
-export const SET_ACTIVE = 'SET_ACTIVE'
-export const SET_ACTIVE_NEXT = 'SET_ACTIVE_NEXT'
-export const TOGGLE_HIDE_USER_LIST = 'TOGGLE_HIDE_USER_LIST'
+import { createStandardAction } from 'typesafe-actions'
+import {
+  ADD_USER,
+  REMOVE_USER,
+  SET_ACTIVE,
+  SET_ACTIVE_NEXT,
+  SET_ORDER,
+  TOGGLE_HIDE_USER_LIST,
+} from '@state/actions/constants'
 
-export type Actions = {
-  readonly ADD_USER: {
-    type: typeof ADD_USER
-    payload: string
-  }
-  readonly REMOVE_USER: {
-    type: typeof REMOVE_USER
-    payload: number
-  }
-  readonly SET_ORDER: {
-    type: typeof SET_ORDER
-    payload: string[]
-  }
-  readonly SET_ACTIVE: {
-    type: typeof SET_ACTIVE
-    payload: number
-  }
-  readonly SET_ACTIVE_NEXT: {
-    type: typeof SET_ACTIVE_NEXT
-  }
-  readonly TOGGLE_HIDE_USER_LIST: {
-    type: typeof TOGGLE_HIDE_USER_LIST
-  }
-}
+export const addUser = createStandardAction(ADD_USER)<string>()
 
-export type RootAction = Actions[keyof Actions]
+export const removeUser = createStandardAction(REMOVE_USER)<number>()
 
-export const addUser = (payload: string): Actions[typeof ADD_USER] => ({
-  type: ADD_USER,
-  payload,
-})
+export const setOrder = createStandardAction(SET_ORDER)<string[]>()
 
-export const removeUser = (payload: number): Actions[typeof REMOVE_USER] => ({
-  type: REMOVE_USER,
-  payload,
-})
+export const setActive = createStandardAction(SET_ACTIVE)<number>()
 
-export const setOrder = (payload: string[]): Actions[typeof SET_ORDER] => ({
-  type: SET_ORDER,
-  payload,
-})
+export const setActiveNext = createStandardAction(SET_ACTIVE_NEXT)()
 
-export const setActive = (payload: number): Actions[typeof SET_ACTIVE] => ({
-  type: SET_ACTIVE,
-  payload,
-})
-
-export const setActiveNext = (): Actions[typeof SET_ACTIVE_NEXT] => ({
-  type: SET_ACTIVE_NEXT,
-})
-
-export const toggleHideUserList = (): Actions[typeof TOGGLE_HIDE_USER_LIST] => ({
-  type: TOGGLE_HIDE_USER_LIST,
-})
+export const toggleHideUserList = createStandardAction(TOGGLE_HIDE_USER_LIST)()

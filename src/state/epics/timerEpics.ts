@@ -1,59 +1,46 @@
-import { MiddlewareAPI } from 'redux'
-import { ActionsObservable, combineEpics } from 'redux-observable'
-import { Observable } from 'rxjs/Observable'
-import { IState } from '@state/index'
-import {
-  Actions,
-  START_TIMER,
-  STOP_TIMER,
-  COUNT_DOWN_ONE_SECOND,
-  COUNT_DOWN_FINISHED,
-  stopTimer,
-  countDownOneSecond,
-  countDownFinished,
-  addNotification,
-} from '@state/actions/timerActions'
+import { combineEpics, Epic } from 'redux-observable'
+import { interval } from 'rxjs'
+import { filter, flatMap, mapTo, mergeMap, switchMap, takeUntil } from 'rxjs/operators'
+import { isOfType } from 'typesafe-actions'
+
+import { IRootActions, IRootState } from '@state/index'
+import * as timerActions from '@state/actions/timerActions'
 import { setActiveNext } from '@state/actions/usersActions'
+import { COUNT_DOWN_FINISHED, COUNT_DOWN_ONE_SECOND, START_TIMER, STOP_TIMER } from '@state/actions/constants'
+
 import { notify } from '../../utils/notifications'
 import timer from '../../assets/timer.svg'
 
-type startTimerEpicType = ActionsObservable<Actions[typeof START_TIMER]>
-type countDownFinishedEpicType = ActionsObservable<
-  Actions[typeof COUNT_DOWN_ONE_SECOND]
->
-type alertEpicType = ActionsObservable<Actions[typeof COUNT_DOWN_FINISHED]>
+type EpicType = Epic<IRootActions, IRootActions, IRootState>
+const { stopTimer, countDownFinished, countDownOneSecond } = timerActions
 
-export const startTimerEpic = (
-  action$: startTimerEpicType,
-  store: MiddlewareAPI<IState>
-) =>
-  action$.ofType(START_TIMER).switchMap(() =>
-    Observable.interval(1000)
-      .takeUntil(action$.ofType(STOP_TIMER))
-      .mapTo(countDownOneSecond())
+export const startTimerEpic: EpicType = action$ =>
+  action$.pipe(
+    filter(isOfType(START_TIMER)),
+    switchMap(() =>
+      interval(1000).pipe(
+        takeUntil(action$.pipe(filter(isOfType(STOP_TIMER)))),
+        mapTo(countDownOneSecond())
+      )
+    )
   )
 
-export const countDownFinishedEpic = (
-  action$: countDownFinishedEpicType,
-  store: MiddlewareAPI<IState>
-) =>
-  action$
-    .ofType(COUNT_DOWN_ONE_SECOND)
-    .filter(() => {
-      const { timeLeft } = store.getState().timer
+export const countDownFinishedEpic: EpicType = (action$, state$) =>
+  action$.pipe(
+    filter(isOfType(COUNT_DOWN_ONE_SECOND)),
+    filter(() => {
+      const { timeLeft } = state$.value.timer
 
       return timeLeft.minutes === 0 && timeLeft.seconds === 0
-    })
-    .mergeMap(() => [stopTimer(), setActiveNext(), countDownFinished()])
+    }),
+    mergeMap(() => [stopTimer(), setActiveNext(), countDownFinished()])
+  )
 
-export const alertEpic = (
-  action$: alertEpicType,
-  store: MiddlewareAPI<IState>
-) =>
-  action$
-    .ofType(COUNT_DOWN_FINISHED)
-    .flatMap((): any => {
-      const state = store.getState().users
+export const alertEpic: EpicType = (action$, state$) =>
+  action$.pipe(
+    filter(isOfType(COUNT_DOWN_FINISHED)),
+    flatMap(() => {
+      const state = state$.value.users
       const nextUser = state.list[state.activeUser]
 
       return [
@@ -64,11 +51,12 @@ export const alertEpic = (
           vibrate: [2000, 2000, 2000],
         }),
       ]
-    })
-    .mergeMap(n => [addNotification(n as any)])
+    }),
+    mergeMap(n => [timerActions.addNotification(n)])
+  )
 
 export const timerEpics = combineEpics(
   startTimerEpic,
-  countDownFinishedEpic as any,
+  countDownFinishedEpic,
   alertEpic
 )

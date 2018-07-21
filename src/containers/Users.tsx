@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 
-import { IState } from '@state/index'
+import { IRootState } from '@state/index'
 import {
   setOrder,
   addUser,
@@ -25,7 +25,7 @@ interface IActionProps {
   toggleHideUserList: typeof toggleHideUserList
 }
 
-const mapState = ({ users }: IState): IStateProps => ({
+const mapState = ({ users }: IRootState): IStateProps => ({
   users: users.list,
   activeUser: users.activeUser,
   hideUserList: users.hideUserList,

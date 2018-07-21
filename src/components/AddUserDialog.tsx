@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader'
 import * as React from 'react'
 import keydown from 'react-keydown/es'
 import { Button } from 'react-md/lib/Buttons'
@@ -16,7 +17,7 @@ interface IState {
   readonly names: ReadonlyArray<string>
 }
 
-export class AddUserDialog extends React.PureComponent<IProps, IState> {
+class AddUserDialogComponent extends React.PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props)
 
@@ -57,7 +58,7 @@ export class AddUserDialog extends React.PureComponent<IProps, IState> {
     this.submit()
   }
 
-  private onInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  private onInputKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
     if (e.keyCode === 13) return this.submit()
   }
 
@@ -65,8 +66,8 @@ export class AddUserDialog extends React.PureComponent<IProps, IState> {
     this.setState({ value })
   }
 
-  public selectName = (name: string) => {
-    this.setState({ value: name })
+  public selectName = (name: React.ReactText) => {
+    this.setState({ value: name as string })
   }
 
   private actions = [
@@ -101,3 +102,5 @@ export class AddUserDialog extends React.PureComponent<IProps, IState> {
     )
   }
 }
+
+export const AddUserDialog = hot(module)(AddUserDialogComponent)

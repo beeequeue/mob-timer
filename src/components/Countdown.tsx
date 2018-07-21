@@ -1,6 +1,8 @@
+import { hot } from 'react-hot-loader'
 import * as React from 'react'
-import styled, { StyledComponentClass } from 'styled-components'
 import { Button, ButtonProps } from 'react-md/lib/Buttons'
+import styled, { StyledComponentClass } from 'styled-components'
+
 import { Time } from '../time'
 
 const Container = styled.div`
@@ -47,8 +49,8 @@ interface IProps {
   onChangeTime: (time: Time) => void
 }
 
-export class Countdown extends React.PureComponent<IProps> {
-  private changeMinutes = (e: React.MouseEvent<HTMLButtonElement>) => {
+class CountdownComponent extends React.PureComponent<IProps> {
+  private changeMinutes = (e: React.MouseEvent<HTMLElement>) => {
     const { time, onChangeTime } = this.props
     const newMinutes = time.minutes + Number(e.currentTarget.textContent)
 
@@ -62,7 +64,7 @@ export class Countdown extends React.PureComponent<IProps> {
     onChangeTime(newTime)
   }
 
-  private changeSeconds = (e: React.MouseEvent<HTMLButtonElement>) => {
+  private changeSeconds = (e: React.MouseEvent<HTMLElement>) => {
     const { time, onChangeTime } = this.props
     let newSeconds = time.seconds + Number(e.currentTarget.textContent)
 
@@ -112,3 +114,5 @@ export class Countdown extends React.PureComponent<IProps> {
     )
   }
 }
+
+export const Countdown = hot(module)(CountdownComponent)

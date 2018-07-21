@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader'
 import * as React from 'react'
 import styled from 'styled-components'
 
@@ -13,8 +14,10 @@ const Icon = styled.img`
   background: #eee;
 `
 
-export const GitHubLink: React.SFC = () => (
+export const GitHubLinkComponent: React.SFC = () => (
   <a target="_blank" href="https://github.com/beeequeue/mob-timer">
     <Icon src={iconUrl} />
   </a>
 )
+
+export const GitHubLink = hot(module)(GitHubLinkComponent)

@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader'
 import * as React from 'react'
 import { findDOMNode } from 'react-dom'
 import {
@@ -31,7 +32,7 @@ const target: DropTargetSpec<IProps> = {
   hover(props, monitor, component) {
     if (!monitor || !component) return
 
-    const dragIndex = (monitor.getItem() as any).index
+    const dragIndex = monitor.getItem().index
     const hoverIndex = props.index
 
     // Don't replace items with themselves
@@ -51,7 +52,7 @@ const target: DropTargetSpec<IProps> = {
     const offsetNeeded = elementHeight / 8
 
     // Determine mouse position
-    const clientOffset = monitor.getClientOffset()
+    const clientOffset = monitor.getClientOffset() || { x: 0, y: 0 }
 
     // Get pixels to the top
     const hoverClientY = clientOffset.y - hoverBoundingRect.top
@@ -72,11 +73,11 @@ const target: DropTargetSpec<IProps> = {
 
     // Time to actually perform the action
     props.moveUser(dragIndex, hoverIndex)
-    ;(monitor.getItem() as any).index = hoverIndex
+    monitor.getItem().index = hoverIndex
   },
 }
 
-const source: DragSourceSpec<IProps> = {
+const source: DragSourceSpec<IProps, Partial<IProps>> = {
   beginDrag(props) {
     return { index: props.index, user: props.user }
   },
@@ -100,7 +101,7 @@ const sourceCollect = (
 
 @DropTarget('user', target, targetCollect)
 @DragSource('user', source, sourceCollect)
-export class DraggableUser extends React.PureComponent<IProps> {
+class DraggableUserComponent extends React.PureComponent<IProps> {
   public render() {
     const { connectDropTarget, connectDragSource, index } = this.props as any
 
@@ -161,3 +162,5 @@ export class DraggableUser extends React.PureComponent<IProps> {
     )
   }
 }
+
+export const DraggableUser = hot(module)(DraggableUserComponent)
