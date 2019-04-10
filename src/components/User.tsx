@@ -123,6 +123,7 @@ class DraggableUserComponent extends React.PureComponent<IProps> {
               fontSize: '1.15em',
               cursor: 'grab',
             }}
+            primaryText="What is primary text"
             primaryAction={
               <span
                 style={{

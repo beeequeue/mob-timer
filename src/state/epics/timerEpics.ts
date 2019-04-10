@@ -1,18 +1,33 @@
 import { combineEpics, Epic } from 'redux-observable'
 import { interval } from 'rxjs'
-import { filter, flatMap, mapTo, mergeMap, switchMap, takeUntil } from 'rxjs/operators'
+import {
+  filter,
+  flatMap,
+  mapTo,
+  mergeMap,
+  switchMap,
+  takeUntil,
+} from 'rxjs/operators'
 import { isOfType } from 'typesafe-actions'
 
 import { IRootActions, IRootState } from '@state/index'
 import * as timerActions from '@state/actions/timerActions'
 import { setActiveNext } from '@state/actions/usersActions'
-import { COUNT_DOWN_FINISHED, COUNT_DOWN_ONE_SECOND, START_TIMER, STOP_TIMER } from '@state/actions/constants'
+import {
+  COUNT_DOWN_FINISHED,
+  COUNT_DOWN_ONE_SECOND,
+  START_TIMER,
+  STOP_TIMER,
+} from '@state/actions/constants'
 
 import { notify } from '../../utils/notifications'
 import timer from '../../assets/timer.svg'
 
 type EpicType = Epic<IRootActions, IRootActions, IRootState>
 const { stopTimer, countDownFinished, countDownOneSecond } = timerActions
+
+const SOUND =
+  'https://s3-us-west-2.amazonaws.com/s.cdpn.io/123941/Yodel_Sound_Effect.mp3'
 
 export const startTimerEpic: EpicType = action$ =>
   action$.pipe(
@@ -49,6 +64,7 @@ export const alertEpic: EpicType = (action$, state$) =>
           badge: timer,
           icon: timer,
           vibrate: [2000, 2000, 2000],
+          sound: SOUND,
         }),
       ]
     }),
