@@ -14,7 +14,7 @@ import timer from '../../assets/timer.svg'
 type EpicType = Epic<IRootActions, IRootActions, IRootState>
 const { stopTimer, countDownFinished, countDownOneSecond } = timerActions
 
-const soundEffect = new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/123941/Yodel_Sound_Effect.mp3')
+const SOUND_EFFECT = new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/123941/Yodel_Sound_Effect.mp3')
 
 export const startTimerEpic: EpicType = action$ =>
   action$.pipe(
@@ -51,7 +51,7 @@ export const alertEpic: EpicType = (action$, state$) =>
           badge: timer,
           icon: timer,
           vibrate: [2000, 2000, 2000],
-          sound: soundEffect,
+          sound: SOUND_EFFECT,
         }),
       ]
     }),

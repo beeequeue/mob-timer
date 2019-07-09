@@ -22,7 +22,8 @@ export function requestPermission() {
 export function notify(title: string, options?: INotificationOptions) {
   const notification = new Notification(title, options)
 
-  if (options && options.sound) options.sound.play().then().catch()
+  // tslint:disable-next-line: no-floating-promises
+  if (options && options.sound) options.sound.play()
 
   notification.onclick = () => {
     notification.close()
