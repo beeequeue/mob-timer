@@ -9,6 +9,7 @@ interface INotificationOptions {
   lang?: string
   tag?: string
   vibrate?: number[]
+  sound?: HTMLAudioElement
   onClose?: (e: Event) => any
 }
 
@@ -20,6 +21,8 @@ export function requestPermission() {
 
 export function notify(title: string, options?: INotificationOptions) {
   const notification = new Notification(title, options)
+
+  if (options && options.sound) options.sound.play().then().catch()
 
   notification.onclick = () => {
     notification.close()
