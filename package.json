@@ -58,7 +58,7 @@
     "@types/react-dnd-multi-backend": "^3.0.1",
     "@types/react-dom": "^16.0.6",
     "@types/react-hot-loader": "^4.1.0",
-    "@types/react-redux": "^6.0.4",
+    "@types/react-redux": "^7.1.2",
     "gh-pages": "^1.2.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.2.0",
