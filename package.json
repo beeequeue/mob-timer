@@ -42,7 +42,7 @@
     "sass-loader": "^7.0.3",
     "source-map-loader": "^0.2.3",
     "style-loader": "0.21.0",
-    "styled-components": "^3.3.3",
+    "styled-components": "^4.4.0",
     "sw-precache-webpack-plugin": "0.11.5",
     "ts-loader": "^4.4.2",
     "typesafe-actions": "^2.0.4",
